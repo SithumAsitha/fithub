@@ -5,7 +5,7 @@ import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
-public class WorkoutPlan {
+public class workoutplan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;

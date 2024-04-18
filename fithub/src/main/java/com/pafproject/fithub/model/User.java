@@ -14,21 +14,21 @@ public class User {
     private String provider; 
 
     @OneToOne(cascade = CascadeType.ALL)
-    private WorkoutPlan workout; 
+    private workoutplan workout; 
     //   one user can only have one workout at a moment
 
-    public User(String username, String email, String provider, WorkoutPlan workout){
+    public User(String username, String email, String provider, workoutplan workout){
         this.username=username;
         this.email=email;
         this.provider=provider;
         this.workout=workout;
     }
 
-    public WorkoutPlan getWorkoutPlan(){
+    public workoutplan getWorkoutPlan(){
         return this.workout;
     }
 
-    public void setWorkoutPlan(WorkoutPlan workout){
+    public void setWorkoutPlan(workoutplan workout){
         this.workout=workout;
     }
 
