@@ -1,5 +1,5 @@
 import HomeIcon from "@mui/icons-material/Home"
-import ExploreIcon from "@mui/icons-material/"
+import ExploreIcon from "@mui/icons-material/Explore"
 import EmailIcon from '@mui/icons-material/Email';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -8,7 +8,7 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PendingIcon from '@mui/icons-material/Pending';
 
-export const navigation=[
+export const navigationMenu=[
     {
         title:"Home",
         icon:<HomeIcon/>,
