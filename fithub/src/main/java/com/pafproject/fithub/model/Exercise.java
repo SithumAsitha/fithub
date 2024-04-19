@@ -7,8 +7,11 @@ public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-
+    private String user_id;
+    
+    // @Column(name = "exerName")
     private String exerName;
+
     private int nSets;
     private int nReps;
 

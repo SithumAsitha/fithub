@@ -8,14 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import com.pafproject.fithub.model.workoutplan;
-import com.pafproject.fithub.repo.WorkoutPlanRepo;
+import com.pafproject.fithub.model.Exercise;
+import com.pafproject.fithub.repo.ExerciseRepo;
 
 @RestController
-public class WorkoutPlanController {
+public class ExerciseController {
 
     @Autowired
-    WorkoutPlanRepo workoutplan_repository;
+    ExerciseRepo workoutplan_repository;
 
     @GetMapping("/workoutplan")
     public String showMessage(){
@@ -24,15 +24,15 @@ public class WorkoutPlanController {
 
     @GetMapping("/workoutplan/{id}")
     public Optional show(@PathVariable String id){
-        Long workoutId = Long.parseLong(id);
+        String workoutId = String.valueOf(id);
         System.out.println(workoutId);
         return workoutplan_repository.findById(workoutId);
     }
 
     @PostMapping("/workoutplan")
-    public ResponseEntity<workoutplan> createWorkout(@RequestBody workoutplan workout) {
-        workoutplan savedWorkout = (workoutplan) workoutplan_repository.save(workout);
-        return new ResponseEntity<>(savedWorkout, HttpStatus.CREATED);
+    public ResponseEntity<Exercise> createExercise(@RequestBody Exercise exercise) {
+        Exercise savedExercise = workoutplan_repository.save(exercise);
+        return new ResponseEntity<>(savedExercise, HttpStatus.CREATED);
     }
     
 }

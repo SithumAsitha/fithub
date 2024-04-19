@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.pafproject.fithub.model.User;
 
-public interface UserRepo extends JpaRepository<User, Long>{
-
+public interface UserRepo extends JpaRepository<User, String>{
+    
 }
