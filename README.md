@@ -6,7 +6,7 @@ Please go under edit and edit this file as needed for your project
 ### Group Leader - IT21174230 Herath H.M. T. N. (it21174230)
 ### Member 2 - 
 ### Member 3 - 
-### Member 4     - IT21489914 Wijedasa H.A.S.A (Sithum Asitha)
+### Member 4     - IT21489914 Wijedasa H.A.S.A (SithumAsitha)
 
 #### Brief Description of your Solution - 
 
