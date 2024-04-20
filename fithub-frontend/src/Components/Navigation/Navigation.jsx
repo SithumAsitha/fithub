@@ -24,7 +24,7 @@ const Navigation = () => {
     };
 
     return (
-        <div className='h-screen sticky top-0'>
+        <div style={{ position: 'sticky', top: 0, height: '100vh' }}>
             <div>
                 <div className='py-5'>
                     <img src={fithubLogo} alt="" style={{ width: '100px', height: 'auto', marginLeft: '100px',marginTop:'20px' }} />
