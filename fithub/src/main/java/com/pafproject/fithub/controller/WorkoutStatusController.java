@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,11 @@ public class WorkoutStatusController {
         return new ResponseEntity<>(savedWorkoutStatus,HttpStatus.CREATED);
     }
 
-
+    @DeleteMapping("workoutstatus/delete/{id}")
+    public boolean delete(@PathVariable String id){
+        Long statusId = Long.valueOf(id);
+        workoutStatusRepo.deleteById(statusId);
+        return true;
+    }
 }
 
