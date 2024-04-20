@@ -1,21 +1,17 @@
 package com.pafproject.fithub.model;
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "WorkoutStatus")
 public class WorkoutStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "status_id")
-    private Long statusId;
 
     @Column(name = "user_id")
     private Long userId;
@@ -40,14 +36,6 @@ public class WorkoutStatus {
 
     @Column(name = "calories_burned")
     private Integer caloriesBurned;
-
-    public Long getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
-    }
 
     public Long getUserId() {
         return userId;
