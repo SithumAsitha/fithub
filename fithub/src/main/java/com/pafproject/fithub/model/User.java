@@ -1,17 +1,15 @@
 package com.pafproject.fithub.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
 
 
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
+
+    private String id;
+
     private String username;
     private String email;
     private String provider; 
@@ -20,7 +18,7 @@ public class User {
 
     }
 
-    public void setId(Long id){
+    public void setId(String id){
         this.id=id;
     }
 
@@ -36,5 +34,20 @@ public class User {
         this.provider=provider;
     }
 
+    public String getId(){
+        return this.id;
+    }
+
+    public String username(){
+        return this.username;
+    }
+
+    public String email(){
+        return this.email;
+    }
+
+    public String provider(){
+        return this.provider;
+    }
 
 }
