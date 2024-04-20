@@ -3,7 +3,7 @@ package com.pafproject.fithub.dto;
 import com.pafproject.fithub.util.MealTime;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -12,8 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class MealPlanDTO {
-    private int id;
-    private LocalDate date;
+    private Long id;
+    private Long userId;
     private List<String> mealName;
+    private Date date;
     private MealTime mealTime;
 }
