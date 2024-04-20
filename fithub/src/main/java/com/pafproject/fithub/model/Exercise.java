@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "user_id")
     private String user_id;
@@ -21,6 +22,10 @@ public class Exercise {
 
     public Exercise(){
 
+    }
+
+    public Long getId(){
+        return this.id;
     }
 
     public String getUser_id(){
@@ -43,7 +48,7 @@ public class Exercise {
         this.user_id=user_id;
     }
 
-    public void exerName(String exerName){
+    public void setExerName(String exerName){
         this.exerName=exerName;
     }
 

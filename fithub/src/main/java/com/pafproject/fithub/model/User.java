@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 public class User {
+    @Id
     private String id;
 
     private String username;
@@ -29,6 +30,22 @@ public class User {
 
     public void setProvider(String provider){
         this.provider=provider;
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public String username(){
+        return this.username;
+    }
+
+    public String email(){
+        return this.email;
+    }
+
+    public String provider(){
+        return this.provider;
     }
 
 

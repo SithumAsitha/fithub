@@ -1,5 +1,6 @@
 package com.pafproject.fithub.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,67 @@ public class ExerciseController {
     @PostMapping("/workoutplan")
     public ResponseEntity<Exercise> createExercise(@RequestBody Exercise exercise) {
         Exercise savedExercise = workoutplan_repository.save(exercise);
+        System.out.println("saved_exercise"+savedExercise.getUser_id()+savedExercise.getExerName());
         return new ResponseEntity<>(savedExercise, HttpStatus.CREATED);
     }
-    
+
+    @PutMapping("/workoutplan/{id}")
+    public ResponseEntity<Exercise> updateExercise(@PathVariable String id, @RequestBody Exercise updatedExercise) {
+        Optional<Exercise> exerciseOptional = workoutplan_repository.findById(id);
+        
+        if (exerciseOptional.isPresent()) {
+            Exercise exercise = exerciseOptional.get();
+            exercise.setExerName(updatedExercise.getExerName());
+            exercise.setnSets(updatedExercise.getnSets());
+            exercise.setnReps(updatedExercise.getnReps());
+           
+            
+            Exercise savedExercise = workoutplan_repository.save(exercise);
+            return ResponseEntity.ok(savedExercise);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PatchMapping("/workoutplan/{id}")
+    public ResponseEntity<Exercise> partiallyUpdateExercise(@PathVariable String id, @RequestBody Map<String, Object> updates) {
+        Optional<Exercise> exerciseOptional = workoutplan_repository.findById(id);
+
+        if (exerciseOptional.isPresent()) {
+            Exercise exercise = exerciseOptional.get();
+            
+            updates.forEach((key, value) -> {
+                switch (key) {
+                    case "exerName":
+                        exercise.setExerName((String) value);
+                        break;
+                    case "nReps":
+                        exercise.setnReps((Integer) value);
+                        break;
+                    case "nSets":
+                        exercise.setnSets((Integer) value);
+                        break;
+                }
+            });
+
+            Exercise savedExercise = workoutplan_repository.save(exercise);
+            return ResponseEntity.ok(savedExercise);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/workoutplan/{id}")
+    public ResponseEntity<Void> deleteExercise(@PathVariable String id) {
+        Optional<Exercise> exerciseOptional = workoutplan_repository.findById(id);
+        
+        if (exerciseOptional.isPresent()) {
+            workoutplan_repository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+    
+
