@@ -37,6 +37,9 @@ public class WorkoutStatus {
     @Column(name = "calories_burned")
     private Integer caloriesBurned;
 
+    public WorkoutStatus(){
+        
+    }
     public Long getUserId() {
         return userId;
     }
