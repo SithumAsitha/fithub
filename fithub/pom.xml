@@ -50,6 +50,13 @@
 			<version>2.2</version> <!-- or a version compatible with your project -->
 		</dependency>
 		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.22</version> <!-- or the latest version -->
+			<scope>provided</scope>
+		</dependency>
+		
 	</dependencies>
 
 
