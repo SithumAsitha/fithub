@@ -1,11 +1,13 @@
 package com.pafproject.fithub.model;
 
+
 import jakarta.persistence.*;
 
 
 @Entity
 public class User {
     @Id
+
     private String id;
 
     private String username;
@@ -47,6 +49,5 @@ public class User {
     public String provider(){
         return this.provider;
     }
-
 
 }
