@@ -16,7 +16,7 @@ public class WorkoutStatus {
     private Long statusId;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     @Column(name = "timestamp")
     private Timestamp timestamp;
@@ -45,11 +45,11 @@ public class WorkoutStatus {
     public Long getStatusId() {
         return statusId;
     }
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
