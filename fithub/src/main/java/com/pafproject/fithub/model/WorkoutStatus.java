@@ -12,6 +12,8 @@ public class WorkoutStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "status_id")
+    private Long statusId;
 
     @Column(name = "user_id")
     private Long userId;
@@ -39,6 +41,9 @@ public class WorkoutStatus {
 
     public WorkoutStatus(){
         
+    }
+    public Long getStatusId() {
+        return statusId;
     }
     public Long getUserId() {
         return userId;
