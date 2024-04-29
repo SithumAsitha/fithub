@@ -17,6 +17,7 @@ const HomePage = () => {
         <Routes>
           <Route path = "/" element={<HomeSection/>}></Route>
           <Route path = "/profile/:id" element={<Profile/>}></Route>
+          <Route path = "/fithub/:id" element={<Profile/>}></Route>
           
         </Routes>
         

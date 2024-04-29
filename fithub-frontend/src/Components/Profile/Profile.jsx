@@ -2,14 +2,20 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import { Avatar, Button } from '@mui/material';
-import React from "react";
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import Card1 from '../HomeSection/Card';
 import profileCover from '../Images/profile-cover.jpg';
 import verifiedIcon from '../Images/verified icon.png';
 
-
 const Profile = () => {
+    const [tabValue, setTabValue] = useState("1")
     const navigate = useNavigate();
     const handleBack = () => navigate(-1);
     const handleOpenProfileModel = () => {
@@ -17,6 +23,17 @@ const Profile = () => {
     }
     const handleFollowUser = () => {
         console.log("follow user")
+    }
+
+    const handleTabChange=(event, newValue)=>{
+        setTabValue(newValue)
+
+        if(newValue===4){
+            console.log("like twit")
+        }
+        else if(newValue === 1){
+            console.log("user twits")
+        }
     }
     return (
         <div>
@@ -96,6 +113,27 @@ const Profile = () => {
                     </div>
                 </div>
 
+            </section>
+
+            <section className='py-5'>
+                <Box sx={{ width: '100%', typography: 'body1' }}>
+                    <TabContext value={tabValue}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+                                <Tab label="Posts" value="1" />
+                                <Tab label="Replies" value="2" />
+                                <Tab label="Media" value="3" />
+                                <Tab label="Likes" value="4" />
+                            </TabList>
+                        </Box>
+                        <TabPanel value="1">
+                            {[1,1,1,1].map((item)=><Card1/>)}
+                        </TabPanel>
+                        <TabPanel value="2">users replies</TabPanel>
+                        <TabPanel value="3">Media</TabPanel>
+                        <TabPanel value="4">Likes</TabPanel>
+                    </TabContext>
+                </Box>
             </section>
         </div>
     );
