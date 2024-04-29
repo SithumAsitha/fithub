@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import FithubDetails from '../FithubDetails/FithubDetails';
 import HomeSection from '../HomeSection/HomeSection';
 import Navigation from '../Navigation/Navigation';
 import Profile from '../Profile/Profile';
@@ -16,8 +17,9 @@ const HomePage = () => {
 
         <Routes>
           <Route path = "/" element={<HomeSection/>}></Route>
+          <Route path = "/home" element={<HomeSection/>}></Route>
           <Route path = "/profile/:id" element={<Profile/>}></Route>
-          <Route path = "/fithub/:id" element={<Profile/>}></Route>
+          <Route path = "/fithub/:id" element={<FithubDetails/>}></Route>
           
         </Routes>
         

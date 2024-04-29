@@ -1,14 +1,14 @@
-import React from 'react'
-import RepeatIcon from '@mui/icons-material/Repeat';
-import { useNavigate } from 'react-router-dom';
-import { Avatar,Button,Menu,MenuItem } from '@mui/material';
-import verifiedIcon from '../Images/verified icon.png'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import { Avatar, Button, Menu, MenuItem } from '@mui/material';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import verifiedIcon from '../Images/verified icon.png';
 
 const Card = () => {
     const navigate = useNavigate();
@@ -84,7 +84,7 @@ const Card = () => {
                             </div>
                         </div>
                         <div className='mt-2'>
-                            <div className='cursor-pointer'>
+                            <div onClick={() => navigate(`/fithub/${3}`)} className='cursor-pointer'>
                                     <p style={{marginBottom:'2px',padding:'0px'}}>Weight Lifting with 20kg dumbbells </p>
                                     <img style={{width:'28rem',border:'gray',padding:'5px',borderRadius:'10px'}} src="https://www.factoryweights.co.uk/cdn/shop/products/dumbellpicweb2_5b65ad65-f3bd-464a-8374-17669985e218_1200x.png?v=1685555760" alt=''/>
                             </div>
