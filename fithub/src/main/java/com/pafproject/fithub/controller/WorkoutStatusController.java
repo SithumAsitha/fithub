@@ -41,7 +41,7 @@ public class WorkoutStatusController {
         return new ResponseEntity<>(savedWorkoutStatus,HttpStatus.CREATED);
     }
 
-    @PutMapping("/workoutstatus/update/{id}")
+    @PutMapping("/workoutstatus/{id}")
     public ResponseEntity<WorkoutStatus> updateExercise(@PathVariable Long id, @RequestBody WorkoutStatus updatedWorkoutStatus) {
         Optional<WorkoutStatus> existingWorkoutStatusOptional = workoutStatusRepo.findById(id);
 
@@ -66,7 +66,7 @@ public class WorkoutStatusController {
         }
     }
 
-    @DeleteMapping("workoutstatus/delete/{id}")
+    @DeleteMapping("workoutstatus/{id}")
     public boolean delete(@PathVariable String id){
         Long statusId = Long.valueOf(id);
         workoutStatusRepo.deleteById(statusId);
