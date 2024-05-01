@@ -1,7 +1,8 @@
 import { Button, Card, CardContent, TextField, Typography } from '@mui/material';
-import { useFormik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { createWorkoutStatus } from './WorkoutStatusService';
 
 const validationSchema = Yup.object().shape({
     userId: Yup.string().required("User ID is required"),
@@ -14,23 +15,29 @@ const validationSchema = Yup.object().shape({
 });
 
 const WorkoutStatus = () => {
-    const handleSubmit = (values) => {
-        console.log("values", values);
+    const[userId, setUserId] = useState('')
+    const[timestamp, setTimestamp] = useState('')
+    const[description, setDescription] = useState('')
+    const[distanceRan, setDistanceRan] = useState('')
+    const[pushupsCompleted, setPushupsCompleted] = useState('')
+    const[weightLifted, setWeightLifted] = useState('')
+    const[durationMinutes, setDurationMinutes] = useState('')
+    const[caloriesBurned, setCaloriesBurned] = useState('')
+
+    const navigator = useNavigate();
+
+    function saveWorkoutStatus(e){
+        e.preventDefault();
+
+        const workoutstatus = {userId,description,distanceRan,pushupsCompleted,weightLifted,durationMinutes,caloriesBurned}
+        console.log(workoutstatus)
+
+        createWorkoutStatus(workoutstatus).then((response) => {
+            console.log(response.data);
+            navigator('/statuslist')
+        })
     }
 
-    const formik = useFormik({
-        initialValues: {
-            userId: "",
-            description: "",
-            distanceRan: 0,
-            pushupsCompleted: 0,
-            weightLifted: 0,
-            durationMinutes: 0,
-            caloriesBurned: 0
-        },
-        onSubmit: handleSubmit,
-        validationSchema,
-    });
 
     return (
         <Card variant="outlined" sx={{ maxWidth: 600, margin: 'auto', marginTop: 5 }}>
@@ -38,16 +45,23 @@ const WorkoutStatus = () => {
                 <Typography variant="h5" component="h2" gutterBottom>
                     <h1 style={{ fontWeight: 'bold', fontSize: '1.45rem', paddingTop: '0.75rem' }}>Add Workout Status</h1>
                 </Typography>
-                <form onSubmit={formik.handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <form  style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <TextField
                         fullWidth
                         variant="outlined"
                         label="User ID"
                         name="userId"
-                        value={formik.values.userId}
-                        onChange={formik.handleChange}
-                        error={formik.touched.userId && Boolean(formik.errors.userId)}
-                        helperText={formik.touched.userId && formik.errors.userId}
+                        value={userId}
+                        onChange={(e) => setUserId(parseInt(e.target.value))}
+                        margin="normal"
+                    />
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        label="Timestamp"
+                        name="timestamp"
+                        value={timestamp}
+                        onChange={(e) => setTimestamp(e.target.value)}
                         margin="normal"
                     />
                     <TextField
@@ -55,10 +69,8 @@ const WorkoutStatus = () => {
                         variant="outlined"
                         label="Description"
                         name="description"
-                        value={formik.values.description}
-                        onChange={formik.handleChange}
-                        error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                         margin="normal"
                     />
                     <TextField
@@ -66,10 +78,8 @@ const WorkoutStatus = () => {
                         variant="outlined"
                         label="Distance Ran"
                         name="distanceRan"
-                        value={formik.values.distanceRan}
-                        onChange={formik.handleChange}
-                        error={formik.touched.distanceRan && Boolean(formik.errors.distanceRan)}
-                        helperText={formik.touched.distanceRan && formik.errors.distanceRan}
+                        value={distanceRan}
+                        onChange={(e) => setDistanceRan(parseInt(e.target.value))}
                         margin="normal"
                     />
                     <TextField
@@ -77,10 +87,8 @@ const WorkoutStatus = () => {
                         variant="outlined"
                         label="Pushups Completed"
                         name="pushupsCompleted"
-                        value={formik.values.pushupsCompleted}
-                        onChange={formik.handleChange}
-                        error={formik.touched.pushupsCompleted && Boolean(formik.errors.pushupsCompleted)}
-                        helperText={formik.touched.pushupsCompleted && formik.errors.pushupsCompleted}
+                        value={pushupsCompleted}
+                        onChange={(e) =>setPushupsCompleted(parseInt(e.target.value))}
                         margin="normal"
                     />
                     <TextField
@@ -88,10 +96,8 @@ const WorkoutStatus = () => {
                         variant="outlined"
                         label="Weight Lifted"
                         name="weightLifted"
-                        value={formik.values.weightLifted}
-                        onChange={formik.handleChange}
-                        error={formik.touched.weightLifted && Boolean(formik.errors.weightLifted)}
-                        helperText={formik.touched.weightLifted && formik.errors.weightLifted}
+                        value={weightLifted}
+                        onChange={(e) =>setWeightLifted(parseInt(e.target.value))}
                         margin="normal"
                     />
                     <TextField
@@ -99,10 +105,8 @@ const WorkoutStatus = () => {
                         variant="outlined"
                         label="Duration Minutes"
                         name="durationMinutes"
-                        value={formik.values.durationMinutes}
-                        onChange={formik.handleChange}
-                        error={formik.touched.durationMinutes && Boolean(formik.errors.durationMinutes)}
-                        helperText={formik.touched.durationMinutes && formik.errors.durationMinutes}
+                        value={durationMinutes}
+                        onChange={(e) =>setDurationMinutes(parseInt(e.target.value))}
                         margin="normal"
                     />
                     <TextField
@@ -110,20 +114,18 @@ const WorkoutStatus = () => {
                         variant="outlined"
                         label="Calories Burned"
                         name="caloriesBurned"
-                        value={formik.values.caloriesBurned}
-                        onChange={formik.handleChange}
-                        error={formik.touched.caloriesBurned && Boolean(formik.errors.caloriesBurned)}
-                        helperText={formik.touched.caloriesBurned && formik.errors.caloriesBurned}
+                        value={caloriesBurned}
+                        onChange={(e) => setCaloriesBurned(parseInt(e.target.value))}
                         margin="normal"
                     />
-                    {/* Repeat similar TextField components for other fields */}
                     <Button
                         fullWidth
                         variant="contained"
+                        onClick={saveWorkoutStatus}
                         style={{ gridColumn: '1 / -1', marginTop: '10px', backgroundColor: '#FD2F03', color: 'white' }}
                         type="submit"
                     >
-                        Gymeet
+                        Submit
                     </Button>
                 </form>
             </CardContent>
