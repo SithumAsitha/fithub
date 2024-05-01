@@ -124,6 +124,7 @@ const Profile = () => {
                                 <Tab label="Replies" value="2" />
                                 <Tab label="Media" value="3" />
                                 <Tab label="Likes" value="4" />
+                                
                             </TabList>
                         </Box>
                         <TabPanel value="1">
