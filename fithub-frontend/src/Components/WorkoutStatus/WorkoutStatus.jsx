@@ -33,10 +33,10 @@ const WorkoutStatus = () => {
     });
 
     return (
-        <Card variant="outlined" sx={{ maxWidth: 600 }}>
+        <Card variant="outlined" sx={{ maxWidth: 600, margin: 'auto', marginTop: 5 }}>
             <CardContent>
                 <Typography variant="h5" component="h2" gutterBottom>
-                    Workout Status
+                    <h1 style={{ fontWeight: 'bold', fontSize: '1.45rem', paddingTop: '0.75rem' }}>Add Workout Status</h1>
                 </Typography>
                 <form onSubmit={formik.handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <TextField
