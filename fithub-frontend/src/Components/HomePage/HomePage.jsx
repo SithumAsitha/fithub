@@ -6,6 +6,7 @@ import HomeSection from '../HomeSection/HomeSection';
 import Navigation from '../Navigation/Navigation';
 import Profile from '../Profile/Profile';
 import RightSide from '../RightSide/RightSide';
+import WorkoutStatus from '../WorkoutStatus/WorkoutStatus';
 
 const HomePage = () => {
   return (
@@ -20,6 +21,7 @@ const HomePage = () => {
           <Route path = "/home" element={<HomeSection/>}></Route>
           <Route path = "/profile/:id" element={<Profile/>}></Route>
           <Route path = "/fithub/:id" element={<FithubDetails/>}></Route>
+          <Route path = "/status" element={<WorkoutStatus/>}></Route>
           
         </Routes>
         
