@@ -66,22 +66,13 @@ public class MealPlanAPI {
 
     @PutMapping(value = "/update",consumes = MediaType.APPLICATION_JSON_VALUE)
     public String updateMeal(@RequestBody MealPlanDTO dto){
-        MealPlan mealPlan = new MealPlan();
-        mealPlan.setId(dto.getId());
-        mealPlan.setMealNames(new Gson().toJson(dto.getMealName()));
-        mealPlan.setMealTime(dto.getMealTime());
-        mealPlan.setDate(dto.getDate());
-
-
-
         try {
-            repo.save(mealPlan);
+            repo.updateMealNamesById(dto.getId(),new Gson().toJson(dto.getMealName()));
+            return "OK";
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-        return "OK";
+        return "Something Went Wrong";
     }
 
     @GetMapping(value = "/get")
