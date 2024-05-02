@@ -22,34 +22,39 @@ const WorkoutStatusList = () => {
     return (
         <div className='container'>
             <h2>List of Workout Status</h2>
-            <table className='table table-striped table-bordered'>
-                <thead>
-                    <tr>
-                        <th>Workout Status ID</th>
-                        <th>userId</th>
-                        <th>timestamp</th>
-                        <th>distanceRan</th>
-                        <th>pushupsCompleted</th>
-                        <th>weightLifted</th>
-                        <th>durationMinutes</th>
-                        <th>caloriesBurned</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {status.map(wstatus =>
-                        <tr key={wstatus.status_id}>
-                            <td>{wstatus.status_id}</td>
-                            <td>{wstatus.userId}</td>
-                            <td>{wstatus.timestamp}</td>
-                            <td>{wstatus.distanceRan}</td>
-                            <td>{wstatus.pushupsCompleted}</td>
-                            <td>{wstatus.weightLifted}</td>
-                            <td>{wstatus.durationMinutes}</td>
-                            <td>{wstatus.caloriesBurned}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+            <style>{`
+                .card-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+
+                .card {
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    padding: 10px;
+                    margin: 10px;
+                    width: 300px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                }
+
+                .card h3 {
+                    margin-bottom: 10px;
+                }
+            `}</style>
+            <div className="card-container">
+                {status.map(wstatus =>
+                    <div key={wstatus.status_id} className="card">
+                        <h3>Workout Status ID: {wstatus.statusId}</h3>
+                        <p>User ID: {wstatus.userId}</p>
+                        <p>Timestamp: {wstatus.timestamp}</p>
+                        <p>Distance Ran: {wstatus.distanceRan}</p>
+                        <p>Pushups Completed: {wstatus.pushupsCompleted}</p>
+                        <p>Weight Lifted: {wstatus.weightLifted}</p>
+                        <p>Duration Minutes: {wstatus.durationMinutes}</p>
+                        <p>Calories Burned: {wstatus.caloriesBurned}</p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
