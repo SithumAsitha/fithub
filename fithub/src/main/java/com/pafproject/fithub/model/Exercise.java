@@ -6,62 +6,58 @@ import jakarta.persistence.*;
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
+    @Column(name = "user_id")
     private String user_id;
-    
-    // @Column(name = "exerName")
+
+    @Column(name = "exerName")
     private String exerName;
 
+    @Column(name = "nSets")
     private int nSets;
+
+    @Column(name = "nReps")
     private int nReps;
 
-    public Exercise(String exerName, int nSets, int nReps){
-        this.setExerName(exerName);
-        this.setnSets(nSets);
-        this.setnReps(nReps);
+    public Exercise(){
+
     }
 
-    public Exercise() {
+    public Long getId(){
+        return this.id;
     }
 
-
-    public int getId() {
-        return id;
+    public String getUser_id(){
+        return this.user_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getExerName(){
+        return this.exerName;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public int getnSets(){
+        return this.nSets;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public int getnReps(){
+        return this.nReps;
     }
 
-    public String getExerName() {
-        return exerName;
+    public void setUser_id(String user_id){
+        this.user_id=user_id;
     }
 
-    public void setExerName(String exerName) {
-        this.exerName = exerName;
+    public void setExerName(String exerName){
+        this.exerName=exerName;
     }
 
-    public int getnSets() {
-        return nSets;
+    public void setnSets(int nSets){
+        this.nSets=nSets;
     }
 
-    public void setnSets(int nSets) {
-        this.nSets = nSets;
+    public void setnReps(int nReps){
+        this.nReps=nReps;
     }
 
-    public int getnReps() {
-        return nReps;
-    }
-
-    public void setnReps(int nReps) {
-        this.nReps = nReps;
-    }
 }

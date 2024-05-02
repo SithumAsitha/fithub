@@ -1,4 +1,4 @@
-package com.pafproject.fithub.api;
+package com.pafproject.fithub.controller;
 
 
 
@@ -9,12 +9,10 @@ import com.pafproject.fithub.dto.MealSharing;
 import com.pafproject.fithub.model.MealPlan;
 import com.pafproject.fithub.model.User;
 import com.pafproject.fithub.repo.MealPlanRepository;
-import com.pafproject.fithub.util.MealTime;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,7 +79,7 @@ public class MealPlanAPI {
         List<MealSharing> collect = all.stream().map(ob -> {
             MealSharing mealSharing = new MealSharing();
             mealSharing.setMealPlanId(ob.getId());
-            mealSharing.setUserName(ob.getUser().getUsername());
+            mealSharing.setUserName(ob.getUser().username());
             ArrayList<String> o = new Gson().fromJson(ob.getMealNames(), new TypeToken<ArrayList<String>>() {
             }.getType());
             mealSharing.setMealName(o);

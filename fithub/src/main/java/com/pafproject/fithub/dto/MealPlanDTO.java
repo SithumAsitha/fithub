@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 public class MealPlanDTO {
     private Long id;
-    private Long userId;
+    private String userId;
     private List<String> mealName;
     private Date date;
     private MealTime mealTime;
