@@ -24,7 +24,9 @@ const WorkoutStatusList = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    function handleUpdateStatus(statusId){
+        navigate(`/edit-status/${statusId}`)
+    }
     const handleDeleteGymeet = () => {
         console.log("Delete Gymeet");
         handleClose();
@@ -95,7 +97,7 @@ const WorkoutStatusList = () => {
                                             'aria-labelledby': 'basic-button',
                                         }}
                                     >
-                                        <MenuItem onClick={handleDeleteGymeet}>Edit</MenuItem>
+                                        <MenuItem onClick={() => handleUpdateStatus(wstatus.statusId)}>Edit</MenuItem>
                                         <MenuItem onClick={handleDeleteGymeet}>Delete</MenuItem>
                                     </Menu>
                                 </div>

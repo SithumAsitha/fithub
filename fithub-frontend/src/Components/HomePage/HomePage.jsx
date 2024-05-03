@@ -24,6 +24,7 @@ const HomePage = () => {
           <Route path = "/fithub/:id" element={<FithubDetails/>}></Route>
           <Route path = "/status" element={<WorkoutStatus/>}></Route>
           <Route path = "/statuslist" element={<WorkoutStatusList/>}></Route>
+          <Route path = "/edit-status/:id" element={<WorkoutStatus/>}></Route>
         </Routes>
         
       </Grid>

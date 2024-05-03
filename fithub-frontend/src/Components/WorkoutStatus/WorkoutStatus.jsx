@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import { createWorkoutStatus } from './WorkoutStatusService';
 
@@ -26,7 +26,7 @@ const WorkoutStatus = () => {
     const [errors, setErrors] = useState({});
 
     const navigator = useNavigate();
-
+    const {statusId} = useParams();
     function saveWorkoutStatus(e){
         e.preventDefault();
 
@@ -57,11 +57,18 @@ const WorkoutStatus = () => {
         });
     }
 
+    function pageTitle(){
+        if(statusId){
+            return <h1 style={{ fontWeight: 'bold', fontSize: '1.45rem', paddingTop: '0.75rem' }}>Update Workout Status</h1>
+        }else{
+            return <h1 style={{ fontWeight: 'bold', fontSize: '1.45rem', paddingTop: '0.75rem' }}>Add Workout Status</h1>
+        }
+    }
     return (
         <Card variant="outlined" sx={{ maxWidth: 600, margin: 'auto', marginTop: 5 }}>
             <CardContent>
                 <Typography variant="h5" component="h2" gutterBottom>
-                    <h1 style={{ fontWeight: 'bold', fontSize: '1.45rem', paddingTop: '0.75rem' }}>Add Workout Status</h1>
+                    {pageTitle()}
                 </Typography>
                 <form style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <TextField
