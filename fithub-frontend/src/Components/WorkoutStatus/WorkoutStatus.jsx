@@ -15,29 +15,47 @@ const validationSchema = Yup.object().shape({
 });
 
 const WorkoutStatus = () => {
-    const[userId, setUserId] = useState('')
-    const[timestamp, setTimestamp] = useState('')
-    const[description, setDescription] = useState('')
-    const[distanceRan, setDistanceRan] = useState('')
-    const[pushupsCompleted, setPushupsCompleted] = useState('')
-    const[weightLifted, setWeightLifted] = useState('')
-    const[durationMinutes, setDurationMinutes] = useState('')
-    const[caloriesBurned, setCaloriesBurned] = useState('')
+    const [userId, setUserId] = useState('');
+    const [timestamp, setTimestamp] = useState('');
+    const [description, setDescription] = useState('');
+    const [distanceRan, setDistanceRan] = useState('');
+    const [pushupsCompleted, setPushupsCompleted] = useState('');
+    const [weightLifted, setWeightLifted] = useState('');
+    const [durationMinutes, setDurationMinutes] = useState('');
+    const [caloriesBurned, setCaloriesBurned] = useState('');
+    const [errors, setErrors] = useState({});
 
     const navigator = useNavigate();
 
     function saveWorkoutStatus(e){
         e.preventDefault();
 
-        const workoutstatus = {userId,description,distanceRan,pushupsCompleted,weightLifted,durationMinutes,caloriesBurned}
-        console.log(workoutstatus)
+        validationSchema.validate({
+            userId,
+            description,
+            distanceRan,
+            pushupsCompleted,
+            weightLifted,
+            durationMinutes,
+            caloriesBurned
+        }, { abortEarly: false })
+        .then(() => {
+            const workoutstatus = {userId, description, distanceRan, pushupsCompleted, weightLifted, durationMinutes, caloriesBurned};
+            console.log(workoutstatus);
 
-        createWorkoutStatus(workoutstatus).then((response) => {
-            console.log(response.data);
-            navigator('/statuslist')
+            createWorkoutStatus(workoutstatus).then((response) => {
+                console.log(response.data);
+                navigator('/statuslist');
+            });
         })
+        .catch((validationErrors) => {
+            const errorsObj = {};
+            validationErrors.inner.forEach(error => {
+                errorsObj[error.path] = error.message;
+            });
+            setErrors(errorsObj);
+        });
     }
-
 
     return (
         <Card variant="outlined" sx={{ maxWidth: 600, margin: 'auto', marginTop: 5 }}>
@@ -45,15 +63,17 @@ const WorkoutStatus = () => {
                 <Typography variant="h5" component="h2" gutterBottom>
                     <h1 style={{ fontWeight: 'bold', fontSize: '1.45rem', paddingTop: '0.75rem' }}>Add Workout Status</h1>
                 </Typography>
-                <form  style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <form style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <TextField
                         fullWidth
                         variant="outlined"
                         label="User ID"
                         name="userId"
                         value={userId}
-                        onChange={(e) => setUserId(parseInt(e.target.value))}
+                        onChange={(e) => setUserId(e.target.value)}
                         margin="normal"
+                        error={!!errors.userId}
+                        helperText={errors.userId}
                     />
                     <TextField
                         fullWidth
@@ -63,6 +83,8 @@ const WorkoutStatus = () => {
                         value={timestamp}
                         onChange={(e) => setTimestamp(e.target.value)}
                         margin="normal"
+                        error={!!errors.timestamp}
+                        helperText={errors.timestamp}
                     />
                     <TextField
                         fullWidth
@@ -72,6 +94,8 @@ const WorkoutStatus = () => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         margin="normal"
+                        error={!!errors.description}
+                        helperText={errors.description}
                     />
                     <TextField
                         fullWidth
@@ -79,8 +103,10 @@ const WorkoutStatus = () => {
                         label="Distance Ran"
                         name="distanceRan"
                         value={distanceRan}
-                        onChange={(e) => setDistanceRan(parseInt(e.target.value))}
+                        onChange={(e) => setDistanceRan(e.target.value)}
                         margin="normal"
+                        error={!!errors.distanceRan}
+                        helperText={errors.distanceRan}
                     />
                     <TextField
                         fullWidth
@@ -88,8 +114,10 @@ const WorkoutStatus = () => {
                         label="Pushups Completed"
                         name="pushupsCompleted"
                         value={pushupsCompleted}
-                        onChange={(e) =>setPushupsCompleted(parseInt(e.target.value))}
+                        onChange={(e) => setPushupsCompleted(e.target.value)}
                         margin="normal"
+                        error={!!errors.pushupsCompleted}
+                        helperText={errors.pushupsCompleted}
                     />
                     <TextField
                         fullWidth
@@ -97,8 +125,10 @@ const WorkoutStatus = () => {
                         label="Weight Lifted"
                         name="weightLifted"
                         value={weightLifted}
-                        onChange={(e) =>setWeightLifted(parseInt(e.target.value))}
+                        onChange={(e) => setWeightLifted(e.target.value)}
                         margin="normal"
+                        error={!!errors.weightLifted}
+                        helperText={errors.weightLifted}
                     />
                     <TextField
                         fullWidth
@@ -106,8 +136,10 @@ const WorkoutStatus = () => {
                         label="Duration Minutes"
                         name="durationMinutes"
                         value={durationMinutes}
-                        onChange={(e) =>setDurationMinutes(parseInt(e.target.value))}
+                        onChange={(e) => setDurationMinutes(e.target.value)}
                         margin="normal"
+                        error={!!errors.durationMinutes}
+                        helperText={errors.durationMinutes}
                     />
                     <TextField
                         fullWidth
@@ -115,8 +147,10 @@ const WorkoutStatus = () => {
                         label="Calories Burned"
                         name="caloriesBurned"
                         value={caloriesBurned}
-                        onChange={(e) => setCaloriesBurned(parseInt(e.target.value))}
+                        onChange={(e) => setCaloriesBurned(e.target.value)}
                         margin="normal"
+                        error={!!errors.caloriesBurned}
+                        helperText={errors.caloriesBurned}
                     />
                     <Button
                         fullWidth
@@ -130,7 +164,6 @@ const WorkoutStatus = () => {
                 </form>
             </CardContent>
         </Card>
-
     );
 }
 
