@@ -9,7 +9,7 @@ import { Avatar, Button, Menu, MenuItem } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import verifiedIcon from '../Images/verified icon.png';
-import { listStatus } from './WorkoutStatusService';
+import { deleteStatus, listStatus } from './WorkoutStatusService';
 
 const WorkoutStatusList = () => {
     const navigate = useNavigate();
@@ -24,12 +24,38 @@ const WorkoutStatusList = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    useEffect(() => {
+        getAllStatus();
+    }, []);
+
+    function getAllStatus(){
+        listStatus()
+            .then((response) => {
+                // Ensure that the response data is an array before setting the state
+                if (Array.isArray(response.data)) {
+                    setStatus(response.data);
+                } else {
+                    console.error("Response data is not an array:", response.data);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
     function handleUpdateStatus(statusId) {
         navigate(`/edit-status/${statusId}`)
-    }
-    const handleDeleteGymeet = () => {
-        console.log("Delete Gymeet");
-        handleClose();
+    };
+
+    function handleDeleteStatus(statusId){
+        console.log(statusId);
+
+        deleteStatus(statusId).then((response)=>{
+            getAllStatus();
+        }).catch(error => {
+            console.error(error);
+        })
     };
 
     const handleOpenReplyModel = () => {
@@ -44,21 +70,7 @@ const WorkoutStatusList = () => {
         console.log("handle like gymeet");
     };
 
-    useEffect(() => {
-        listStatus()
-            .then((response) => {
-                // Ensure that the response data is an array before setting the state
-                if (Array.isArray(response.data)) {
-                    setStatus(response.data);
-                } else {
-                    console.error("Response data is not an array:", response.data);
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
-
+    
     return (
         <div>
             <div className='container'>
@@ -108,10 +120,11 @@ const WorkoutStatusList = () => {
                                     'aria-labelledby': 'basic-button',
                                 }}
                             >
-                                <button onClick={() => handleUpdateStatus(wstatus.statusId)}>Edit</button>
-                                <MenuItem onClick={handleDeleteGymeet}>Delete</MenuItem>
+                                <MenuItem onClick={() => handleUpdateStatus(wstatus.statusId)}>Edit</MenuItem>
+                                <MenuItem onClick={() => handleDeleteStatus(wstatus.statusId)}>Delete</MenuItem>
                             </Menu>
                             <button onClick={() => handleUpdateStatus(wstatus.statusId)}>Edit</button>
+                            <button onClick={() => handleDeleteStatus(wstatus.statusId)}>Delete</button>
                             <div style={{ display: 'flex', marginTop: '10px' }}>
                                 <ChatBubbleOutlineIcon className='cursor-pointer' onClick={handleOpenReplyModel} />
                                 <p>43</p>

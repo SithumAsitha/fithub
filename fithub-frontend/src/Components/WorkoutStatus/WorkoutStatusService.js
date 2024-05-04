@@ -10,3 +10,5 @@ export const getStatus = (statusId) => axios.get(REST_API_BASE_URL + '/' + statu
 
 export const updateStatus = (statusId, workoutstatus) => axios.put(REST_API_BASE_URL + '/' + statusId,workoutstatus);
 
+export const deleteStatus = (statusId) => axios.delete(REST_API_BASE_URL+ '/' + statusId);
+
