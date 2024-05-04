@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import Card1 from '../HomeSection/Card';
 import profileCover from '../Images/profile-cover.jpg';
 import verifiedIcon from '../Images/verified icon.png';
+import WorkoutPlan from '../WorkoutPlan/WorkoutPlan';
 
 const Profile = () => {
     const [tabValue, setTabValue] = useState("1")
@@ -124,6 +125,8 @@ const Profile = () => {
                                 <Tab label="Replies" value="2" />
                                 <Tab label="Media" value="3" />
                                 <Tab label="Likes" value="4" />
+                                <Tab label="Workout Plan" value="5" />
+
                             </TabList>
                         </Box>
                         <TabPanel value="1">
@@ -132,6 +135,8 @@ const Profile = () => {
                         <TabPanel value="2">users replies</TabPanel>
                         <TabPanel value="3">Media</TabPanel>
                         <TabPanel value="4">Likes</TabPanel>
+                        <TabPanel value="5">{<WorkoutPlan/>}</TabPanel>
+                        {/* <TabPanel value="5">Workout Plan</TabPanel> */}
                     </TabContext>
                 </Box>
             </section>
