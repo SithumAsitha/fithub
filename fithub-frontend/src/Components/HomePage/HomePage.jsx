@@ -6,6 +6,8 @@ import HomeSection from '../HomeSection/HomeSection';
 import Navigation from '../Navigation/Navigation';
 import Profile from '../Profile/Profile';
 import RightSide from '../RightSide/RightSide';
+import GoogleAuth
+ from '../Authentication/GoogleAuth';
 
 const HomePage = () => {
   return (
@@ -20,7 +22,7 @@ const HomePage = () => {
           <Route path = "/home" element={<HomeSection/>}></Route>
           <Route path = "/profile/:id" element={<Profile/>}></Route>
           <Route path = "/fithub/:id" element={<FithubDetails/>}></Route>
-          
+          <Route path="/google-auth" element={<GoogleAuth />} /> {/* New route for GoogleAuth */}
         </Routes>
         
       </Grid>
