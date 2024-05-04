@@ -24,7 +24,7 @@ const WorkoutStatusList = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    function handleUpdateStatus(statusId){
+    function handleUpdateStatus(statusId) {
         navigate(`/edit-status/${statusId}`)
     }
     const handleDeleteGymeet = () => {
@@ -88,27 +88,30 @@ const WorkoutStatusList = () => {
                                     >
                                         <MoreHorizIcon />
                                     </Button>
-                                    <Menu
-                                        id="basic-menu"
-                                        anchorEl={anchorEl}
-                                        open={open}
-                                        onClose={handleClose}
-                                        MenuListProps={{
-                                            'aria-labelledby': 'basic-button',
-                                        }}
-                                    >
-                                        <MenuItem onClick={() => handleUpdateStatus(wstatus.statusId)}>Edit</MenuItem>
-                                        <MenuItem onClick={handleDeleteGymeet}>Delete</MenuItem>
-                                    </Menu>
+
                                 </div>
                             </div>
                             <h3>Workout Status ID: {wstatus.statusId}</h3>
+                            <p>User ID: {wstatus.userId}</p>
                             <p>Timestamp: {wstatus.timestamp}</p>
                             <p>Distance Ran: {wstatus.distanceRan}</p>
                             <p>Pushups Completed: {wstatus.pushupsCompleted}</p>
                             <p>Weight Lifted: {wstatus.weightLifted}</p>
                             <p>Duration Minutes: {wstatus.durationMinutes}</p>
                             <p>Calories Burned: {wstatus.caloriesBurned}</p>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                    'aria-labelledby': 'basic-button',
+                                }}
+                            >
+                                <button onClick={() => handleUpdateStatus(wstatus.statusId)}>Edit</button>
+                                <MenuItem onClick={handleDeleteGymeet}>Delete</MenuItem>
+                            </Menu>
+                            <button onClick={() => handleUpdateStatus(wstatus.statusId)}>Edit</button>
                             <div style={{ display: 'flex', marginTop: '10px' }}>
                                 <ChatBubbleOutlineIcon className='cursor-pointer' onClick={handleOpenReplyModel} />
                                 <p>43</p>

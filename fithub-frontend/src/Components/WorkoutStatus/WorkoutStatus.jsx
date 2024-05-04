@@ -1,8 +1,8 @@
 import { Button, Card, CardContent, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
-import { createWorkoutStatus } from './WorkoutStatusService';
+import { createWorkoutStatus, getStatus, updateStatus } from './WorkoutStatusService';
 
 const validationSchema = Yup.object().shape({
     userId: Yup.string().required("User ID is required"),
@@ -27,7 +27,26 @@ const WorkoutStatus = () => {
 
     const navigator = useNavigate();
     const {statusId} = useParams();
-    function saveWorkoutStatus(e){
+    
+    useEffect(()=>{
+
+        if(statusId){
+            getStatus(statusId).then((response)=>{
+                setUserId(response.data.userId);
+                setTimestamp(response.data.timestamp);
+                setDescription(response.data.description);
+                setDistanceRan(response.data.distanceRan);
+                setPushupsCompleted(response.data.pushupsCompleted);
+                setWeightLifted(response.data.weightLifted);
+                setDurationMinutes(response.data.durationMinutes);
+                setCaloriesBurned(response.data.caloriesBurned);
+            }).catch(error =>{
+                console.error(error);
+            })
+        }
+    },[statusId])
+    
+    function saveOrUpdateWorkoutStatus(e){
         e.preventDefault();
 
         validationSchema.validate({
@@ -43,10 +62,23 @@ const WorkoutStatus = () => {
             const workoutstatus = {userId, description, distanceRan, pushupsCompleted, weightLifted, durationMinutes, caloriesBurned};
             console.log(workoutstatus);
 
-            createWorkoutStatus(workoutstatus).then((response) => {
-                console.log(response.data);
-                navigator('/statuslist');
-            });
+            if(statusId){
+                updateStatus(statusId, workoutstatus).then((response)=>{
+                    console.log(response.data);
+                    navigator('/statuslist');
+                }).catch(error =>{
+                    console.error(error);
+                })
+            }else{
+                createWorkoutStatus(workoutstatus).then((response) => {
+                    console.log(response.data);
+                    navigator('/statuslist');
+                }).catch(error =>{
+                    console.error(error);
+                })
+            }
+
+            
         })
         .catch((validationErrors) => {
             const errorsObj = {};
@@ -56,6 +88,7 @@ const WorkoutStatus = () => {
             setErrors(errorsObj);
         });
     }
+
 
     function pageTitle(){
         if(statusId){
@@ -162,7 +195,7 @@ const WorkoutStatus = () => {
                     <Button
                         fullWidth
                         variant="contained"
-                        onClick={saveWorkoutStatus}
+                        onClick={saveOrUpdateWorkoutStatus}
                         style={{ gridColumn: '1 / -1', marginTop: '10px', backgroundColor: '#FD2F03', color: 'white' }}
                         type="submit"
                     >
