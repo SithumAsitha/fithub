@@ -101,6 +101,39 @@ public class PostServiceImpl implements PostService {
         }
         return basicResponse;
     }
+    @Override
+    public BasicResponse updatePost(Post post, MultipartFile postImage) {
+        BasicResponse basicResponse = new BasicResponse();
+        try {
+            Optional<Post> checkPost = postRepo.findById(post.getPostId());
+            if (checkPost.isPresent()) {
+                Post p = checkPost.get();
 
+                // file upload start
+                File savFile = new ClassPathResource("static/postImages").getFile();
+                Path path = Paths.get(savFile.getAbsolutePath() + File.separator + postImage.getOriginalFilename());
+                Files.copy(postImage.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                // file upload end
+
+                p.setPostDescription(post.getPostDescription());
+                p.setTimestamp(post.getTimestamp());
+                p.setPostImage(postImage.getOriginalFilename());
+
+                Post post2 = postRepo.save(p);
+
+                basicResponse.setData(post2);
+                basicResponse.setMessage("Post updated successfully");
+                basicResponse.setStatus(true);
+
+            } else {
+                basicResponse.setMessage("Post updation failed!");
+                basicResponse.setStatus(false);
+            }
+        } catch (Exception e) {
+            basicResponse.setMessage(e.getMessage());
+            basicResponse.setStatus(false);
+        }
+        return basicResponse;
+    }
 
 }

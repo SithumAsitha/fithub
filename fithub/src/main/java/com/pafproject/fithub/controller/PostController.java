@@ -57,6 +57,22 @@ public class PostController {
         return new ResponseEntity<>(basicResponse,HttpStatus.OK);
     }
 
+    @PostMapping("/updatePost")
+    public ResponseEntity<BasicResponse> updatePost(
+            @RequestParam("post_image") MultipartFile postImage,
+            @RequestParam("post_data") String blogData
+    ){
+        BasicResponse basicResponse = new BasicResponse();
+        try {
+            Post post= null;
+            post = objectMapper.readValue(blogData, Post.class);
+            basicResponse = postService.updatePost(post,postImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(basicResponse,HttpStatus.OK);
+    }
+
 
 
 }

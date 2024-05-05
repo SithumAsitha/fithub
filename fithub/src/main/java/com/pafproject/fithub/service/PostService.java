@@ -11,4 +11,6 @@ public interface PostService {
     BasicResponse getAllPosts();
 
     BasicResponse getPostById(int id);
+
+    BasicResponse updatePost(Post post, MultipartFile postImage);
 }
