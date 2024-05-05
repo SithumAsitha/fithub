@@ -1,11 +1,10 @@
 package com.pafproject.fithub.service;
 
 import com.pafproject.fithub.model.Post;
-
-import java.util.List;
+import com.pafproject.fithub.request_response.BasicResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface PostService {
-    Post addPost(Post post) throws Exception;
 
-    List<Post> getPost();
+    BasicResponse addPost(Post post, MultipartFile postImage);
 }

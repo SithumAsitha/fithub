@@ -1,24 +1,35 @@
 package com.pafproject.fithub.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="posts")
+@Entity
 public class Post {
 
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "post_id")
+    private int postId;
 
-    private String post;
-    private String name;
-    private String email;
-    private String image;
-    private String file;
-    private String profilePic;
-    private String timeStamp;
-    private String imageName;
+    @Column(name = "user_id")
+    private String userId;
+
+    @Column(name = "post_description")
+    private String postDescription;
+
+    @Column(name = "post_image")
+    private String postImage;
+
+    @Column(name = "timestamp")
+    private Timestamp timestamp;
+
+
 }

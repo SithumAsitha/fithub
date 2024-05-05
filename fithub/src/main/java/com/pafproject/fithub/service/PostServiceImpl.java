@@ -1,67 +1,61 @@
 package com.pafproject.fithub.service;
 
-import com.pafproject.fithub.entity.PostEntity;
 import com.pafproject.fithub.model.Post;
-import com.pafproject.fithub.repo.PostEntityRepository;
-import org.springframework.beans.BeanUtils;
+import com.pafproject.fithub.repo.PostRepo;
+import com.pafproject.fithub.request_response.BasicResponse;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Service
 public class PostServiceImpl implements PostService {
 
-    private PostEntityRepository postEntityRepository;
-
-    public PostServiceImpl(PostEntityRepository postEntityRepository) {
-        this.postEntityRepository = postEntityRepository;
+    public PostRepo postRepo;
+    public PostServiceImpl(PostRepo postRepo){
+        this.postRepo = postRepo;
     }
 
     @Override
-    public Post addPost(Post post) throws Exception {
+    public BasicResponse addPost(Post post, MultipartFile postImage) {
+        BasicResponse basicResponse = new BasicResponse();
         try {
+            if(post != null && !postImage.isEmpty()){
 
-            PostEntity postEntity = new PostEntity();
-            BeanUtils.copyProperties(post, postEntity);
-            if (post.getFile() != null && !post.getFile().equalsIgnoreCase("null"))
-                postEntity.setImage(post.getFile());
-            else
-                postEntity.setImage(null);
+                // file upload start
+                File savFile = new ClassPathResource("static/postImages").getFile();
+                Path path = Paths.get(savFile.getAbsolutePath() + File.separator + postImage.getOriginalFilename());
+                Files.copy(postImage.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                // file upload end
 
-            postEntity = postEntityRepository.save(postEntity);
+                Post post2 = new Post();
+                post2.setPostDescription(post.getPostDescription());
+                post2.setTimestamp(post.getTimestamp());
+                post2.setUserId(post.getUserId());
+                post2.setPostImage(postImage.getOriginalFilename());
 
-            post.setId(postEntity.getId());
-            post.setFile(null);
-            post.setImage(postEntity.getImage());
+                Post p = postRepo.save(post2);
 
-        } catch (Exception e) {
-            throw new Exception("Could not save Post: " + e);
+                basicResponse.setData(p);
+                basicResponse.setMessage("Post added successfully!");
+                basicResponse.setStatus(true);
+
+            }else{
+
+                basicResponse.setMessage("Post addition failed!");
+                basicResponse.setStatus(false);
+            }
+
+
+        }catch (Exception e){
+            basicResponse.setMessage(e.getMessage());
+            basicResponse.setStatus(false);
         }
-        return post;
+        return  basicResponse;
     }
-
-    @Override
-    public List<Post> getPost() {
-        List<PostEntity> postEntities
-                = postEntityRepository.findAll();
-
-        List<Post> posts = new ArrayList<>();
-        posts = postEntities.stream()
-                .map((postEntity) ->
-                        Post.builder()
-                                .id(postEntity.getId())
-                                .timeStamp(postEntity.getTimeStamp())
-                                .email(postEntity.getEmail())
-                                .name(postEntity.getName())
-                                .post(postEntity.getPost())
-                                .image(postEntity.getImage())
-                                .profilePic(postEntity.getProfilePic())
-                                .build()
-                ).collect(Collectors.toList());
-        return posts;
-    }
-
-
 }
