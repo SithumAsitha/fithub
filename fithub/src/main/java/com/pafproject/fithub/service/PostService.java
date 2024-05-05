@@ -9,4 +9,6 @@ public interface PostService {
     BasicResponse addPost(Post post, MultipartFile postImage);
 
     BasicResponse getAllPosts();
+
+    BasicResponse getPostById(int id);
 }

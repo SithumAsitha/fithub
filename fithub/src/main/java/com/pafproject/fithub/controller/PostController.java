@@ -46,6 +46,17 @@ public class PostController {
         }
         return new ResponseEntity<>(basicResponse,HttpStatus.OK);
     }
+    @GetMapping("/allPosts/{id}")
+    public ResponseEntity<BasicResponse> getPostById(@PathVariable int id){
+        BasicResponse basicResponse = new BasicResponse();
+        try {
+            basicResponse = postService.getPostById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(basicResponse,HttpStatus.OK);
+    }
+
 
 
 }

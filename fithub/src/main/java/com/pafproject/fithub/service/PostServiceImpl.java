@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -79,5 +80,27 @@ public class PostServiceImpl implements PostService {
         }
         return basicResponse;
     }
+    @Override
+    public BasicResponse getPostById(int id) {
+        BasicResponse basicResponse = new BasicResponse();
+        try {
+
+            Optional<Post> myPost = postRepo.findById(id);
+            if (myPost.isPresent()) {
+                Post post = myPost.get();
+                basicResponse.setData(post);
+                basicResponse.setMessage("Post details");
+                basicResponse.setStatus(true);
+            } else {
+                basicResponse.setMessage("No post details");
+                basicResponse.setStatus(false);
+            }
+        } catch (Exception e) {
+            basicResponse.setMessage(e.getMessage());
+            basicResponse.setStatus(false);
+        }
+        return basicResponse;
+    }
+
 
 }
