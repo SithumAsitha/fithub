@@ -1,9 +1,12 @@
 package com.pafproject.fithub.controller;
 
 
+import com.pafproject.fithub.model.Post;
+import com.pafproject.fithub.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(value = "http://localhost:3000")
