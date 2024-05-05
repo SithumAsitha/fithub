@@ -7,10 +7,7 @@ import com.pafproject.fithub.request_response.BasicResponse;
 import com.pafproject.fithub.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -39,5 +36,16 @@ public class PostController {
         }
             return new ResponseEntity<>(basicResponse, HttpStatus.OK);
     }
+    @GetMapping("/allPosts")
+    public ResponseEntity<BasicResponse> getAllBlogs(){
+        BasicResponse basicResponse = new BasicResponse();
+        try {
+            basicResponse = postService.getAllPosts();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(basicResponse,HttpStatus.OK);
+    }
+
 
 }

@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -58,4 +59,25 @@ public class PostServiceImpl implements PostService {
         }
         return  basicResponse;
     }
+
+    @Override
+    public BasicResponse getAllPosts() {
+        BasicResponse basicResponse = new BasicResponse();
+        try {
+            List<Post> allPosts = postRepo.findAll();
+            if (!allPosts.isEmpty()) {
+                basicResponse.setData(allPosts);
+                basicResponse.setMessage("All Posts");
+                basicResponse.setStatus(true);
+            } else {
+                basicResponse.setMessage("No Posts");
+                basicResponse.setStatus(false);
+            }
+        } catch (Exception e) {
+            basicResponse.setMessage(e.getMessage());
+            basicResponse.setStatus(false);
+        }
+        return basicResponse;
+    }
+
 }
