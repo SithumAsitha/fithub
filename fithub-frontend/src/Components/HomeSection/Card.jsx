@@ -55,7 +55,7 @@ const Card = () => {
                         <div style={{ display: 'flex' }}>
                             <div style={{ display: 'flex' }}>
                                 <span style={{ fontWeight: 'bold' }}>Sithum Asitha</span>
-                                <span style={{ color: '#B2BEB5', marginLeft: '20px' }}>@sithumasitha . 2m</span>
+                                <span style={{ color: '#B2BEB5', marginLeft: '20px' }}>@sithumasitha . {new Date().toLocaleString()}</span>
                                 <img style={{ marginLeft: '5px', marginTop: '5px', height: '15px', widows: '15px' }} src={verifiedIcon} alt='' />
                             </div>
                             <div style={{ marginLeft:'190px' }}>
