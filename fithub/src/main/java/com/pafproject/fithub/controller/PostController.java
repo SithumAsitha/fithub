@@ -73,6 +73,17 @@ public class PostController {
         return new ResponseEntity<>(basicResponse,HttpStatus.OK);
     }
 
+    @GetMapping("/deletePostById/{id}")
+    public ResponseEntity<BasicResponse> deletePostById(@PathVariable int id){
+        BasicResponse basicResponse = new BasicResponse();
+        try {
+            basicResponse = postService.deletePostById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(basicResponse,HttpStatus.OK);
+    }
+
 
 
 }

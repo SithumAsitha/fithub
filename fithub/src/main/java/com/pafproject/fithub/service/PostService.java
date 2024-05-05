@@ -13,4 +13,6 @@ public interface PostService {
     BasicResponse getPostById(int id);
 
     BasicResponse updatePost(Post post, MultipartFile postImage);
+
+    BasicResponse deletePostById(int id);
 }

@@ -135,5 +135,26 @@ public class PostServiceImpl implements PostService {
         }
         return basicResponse;
     }
+    @Override
+    public BasicResponse deletePostById(int id) {
+        BasicResponse basicResponse = new BasicResponse();
+        try {
+            Optional<Post> checkPost = postRepo.findById(id);
+            if (checkPost.isPresent()) {
+                Post post = checkPost.get();
+                postRepo.delete(post);
+                basicResponse.setData(post);
+                basicResponse.setMessage("Post deleted successfully");
+                basicResponse.setStatus(true);
+            } else {
+                basicResponse.setMessage("Post deletion failed");
+                basicResponse.setStatus(false);
+            }
+        } catch (Exception e) {
+            basicResponse.setMessage(e.getMessage());
+            basicResponse.setStatus(false);
+        }
+        return basicResponse;
+    }
 
 }
