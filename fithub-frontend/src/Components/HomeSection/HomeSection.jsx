@@ -34,18 +34,21 @@ const HomeSection = () => {
     const handleSubmit = async (values) => {
         try {
             const formData = new FormData();
-            formData.append("post_image", values.image); // Ensure this matches the name expected by the backend for the image part
-            formData.append("post_data", JSON.stringify({ // Ensure this matches the name expected by the backend for the JSON data part
+            formData.append("post_image", values.image);
+            formData.append("post_data", JSON.stringify({
                 postDescription: values.content,
                 userId: "GYM12345",
                 timestamp: new Date().toISOString()
             }));
 
-            await axios.post('http://localhost:8081/api/addPost', formData, {
+            const response = await axios.post('http://localhost:8081/api/addPost', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+
+            const newPost = response.data.data; // Assuming the response contains the newly created post
+            setPosts([...posts, newPost]); // Update the state with the new post
 
             formik.resetForm();
             setSelectedImage("");
@@ -53,6 +56,7 @@ const HomeSection = () => {
             console.error('Error submitting post:', error);
         }
     };
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault(); // Prevent default form submission
@@ -139,21 +143,24 @@ const HomeSection = () => {
                 </div>
             </section>
             <section style={{ marginTop: '40px' }}>
-                {posts.map((post) => {
-                    console.log("Post Image URL:", post.postImage); // Display postImage in the console
-                    return (
-                        <Card
-                            key={post.postId}
-                            postDescription={post.postDescription}
-                            postImage={post.postImage}
-                            timestamp={post.timestamp}
-                            postId={post.postId}
-                            updatePosts={setPosts}
-                        />
-                    );
-                })}
-
+                {posts
+                    .slice() // Create a shallow copy of the array to avoid mutating the original array
+                    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) // Sort the array in descending order of timestamp
+                    .map((post) => {
+                        console.log("Post Image URL:", post.postImage); // Display postImage in the console
+                        return (
+                            <Card
+                                key={post.postId}
+                                postDescription={post.postDescription}
+                                postImage={post.postImage}
+                                timestamp={post.timestamp}
+                                postId={post.postId}
+                                updatePosts={setPosts}
+                            />
+                        );
+                    })}
             </section>
+
         </div>
     );
 };

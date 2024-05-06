@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -6,20 +7,40 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import { Avatar, Button, Menu, MenuItem } from '@mui/material';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import verifiedIcon from '../Images/verified icon.png';
+import ImageIcon from '@mui/icons-material/Image';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import TagFacesIcon from '@mui/icons-material/TagFaces';
+import { RiDeleteBin6Line } from 'react-icons/ri';
 import axios from 'axios';
+import { useFormik } from 'formik';
 
-const Card = ({ postDescription, postImage, timestamp,postId, updatePosts}) => {
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+
+
+const Card = ({ post, postDescription, postImage, timestamp, postId, updatePosts }) => {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    // const imagePath = `D:/PAF PROJECT/paf-assignment-2024-ds_22_team/fithub/target/classes/static/postImages/${postImage}`;
+    const [openDialog, setOpenDialog] = useState(false);
+    const [selectedPost, setSelectedPost] = useState(null);
+    const [posts, setPosts] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [editingPost, setEditingPost] = useState(null);
 
-
-    const handleClick = (event) => {
+    const handleClick = (event, post) => {
+        setEditingPost(post);
         setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuItemClick = (action) => {
+        if (action === "Edit") {
+            setOpenDialog(true);
+        } else if (action === "Delete") {
+            handleDeleteGymeet();
+        }
+        setAnchorEl(null); // Close the menu
     };
 
     const handleClose = () => {
@@ -41,10 +62,40 @@ const Card = ({ postDescription, postImage, timestamp,postId, updatePosts}) => {
         }
         handleClose(); // Close the menu
     };
-    
+
+    const handleEditPost = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("post_image", selectedImage);
+            formData.append("post_data", JSON.stringify({
+                postId: postId,
+                postDescription: postDescription,
+                userId: "GYM12345",
+                timestamp: new Date().toISOString()
+            }));
+
+            const response = await axios.post(`http://localhost:8081/api/updatePost`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            const updatedPost = response.data.data; // Assuming the response contains the updated post
+            setPosts(posts.map((p) => (p.postId === editingPost.postId ? updatedPost : p)));
+            setOpenDialog(false); // Close the dialog
+        } catch (error) {
+            console.error('Error editing post:', error);
+        }
+    };
+
+    const handleSelectImage = (event) => {
+        setSelectedImage(event.target.files[0]);
+    };
+
     const handleOpenReplyModel = () => {
         console.log("Open model");
     };
+
     const handleCreateReGymeet = () => {
         console.log("handle create reGymeet");
     };
@@ -89,9 +140,32 @@ const Card = ({ postDescription, postImage, timestamp,postId, updatePosts}) => {
                                         'aria-labelledby': 'basic-button',
                                     }}
                                 >
-                                    <MenuItem onClick={handleDeleteGymeet}>Edit</MenuItem>
-                                    <MenuItem onClick={handleDeleteGymeet}>Delete</MenuItem>
+                                    <MenuItem onClick={() => handleMenuItemClick("Edit")}>Edit</MenuItem>
+                                    <MenuItem onClick={() => handleMenuItemClick("Delete")}>Delete</MenuItem>
                                 </Menu>
+                                <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+                                    <DialogTitle>Edit Post</DialogTitle>
+                                    <DialogContent>
+                                        <div>
+                                            <input type='text' name='content' placeholder='What is happening?'
+                                                className={`border-none outline-none text-xl bg-transparent`}
+                                                value={postDescription} />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="fileInput">Select Image</label>
+                                            <input
+                                                id="fileInput"
+                                                type='file'
+                                                name='imageFile'
+                                                onChange={handleSelectImage} />
+                                        </div>
+                                        <Button
+                                            sx={{ width: "25%", borderRadius: "20px", paddingY: "5px", paddingX: "0px", bgcolor: "#FD2F03", '&:hover': { bgcolor: 'black' } }}
+                                            variant='contained'
+
+                                            onClick={handleEditPost}>Update</Button>
+                                    </DialogContent>
+                                </Dialog>
                             </div>
                         </div>
                         <div className='mt-2'>
@@ -115,8 +189,8 @@ const Card = ({ postDescription, postImage, timestamp,postId, updatePosts}) => {
                                     {true ? <FavoriteIcon
                                         onClick={handleCreateReGymeet}
                                         className='cursor-pointer' /> : <FavoriteBorderIcon
-                                            onClick={handleLikeGymeet}
-                                            className='cursor-pointer' />
+                                        onClick={handleLikeGymeet}
+                                        className='cursor-pointer' />
                                     }
                                 </div>
                                 <div className='space-x-3 flex items-center text-gray-600' style={{ marginLeft: '50px' }}>
