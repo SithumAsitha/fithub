@@ -10,6 +10,7 @@ import profileCover from '../Images/profile-cover.jpg';
 import verifiedIcon from '../Images/verified icon.png';
 import DisplayWorkoutPlan from '../WorkoutPlan/DisplayWorkoutPlan';
 import WorkoutPlan from '../WorkoutPlan/WorkoutPlan';
+import WorkoutStatus from '../WorkoutStatus/WorkoutStatus';
 
 const Profile = () => {
     const [tabValue, setTabValue] = useState("1");
@@ -121,9 +122,10 @@ const Profile = () => {
                                 <Tab label="Posts" value="1" />
                                 <Tab label="Replies" value="2" />
                                 <Tab label="Media" value="3" />
-                                <Tab label="Likes" value="4" />
+
                                 <Tab label="Workout Plan" value="5" />
-                            </TabList>
+                                <Tab label="Workout Status" value="6" />
+           </TabList>
                         </Box>
                         <TabPanel value="1">
                             {[1, 1, 1, 1].map((item) => <Card1 />)}
@@ -131,10 +133,13 @@ const Profile = () => {
                         <TabPanel value="2">users replies</TabPanel>
                         <TabPanel value="3">Media</TabPanel>
                         <TabPanel value="4">Likes</TabPanel>
+
                         <TabPanel value="5">
                             {showWorkoutPlan ? <WorkoutPlan /> : <Button onClick={handleAddWorkoutPlan} variant="contained" color="primary">Add Workout Plan</Button>}
                             <DisplayWorkoutPlan PlanId="1" /> {/* Replace PlanId with actual value */}
                         </TabPanel>
+                        <TabPanel value="6">{<WorkoutStatus/>}</TabPanel>
+
                     </TabContext>
                 </Box>
             </section>
