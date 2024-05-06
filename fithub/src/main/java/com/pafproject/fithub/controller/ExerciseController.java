@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pafproject.fithub.model.Exercise;
 import com.pafproject.fithub.repo.ExerciseRepo;
 
+
 @RestController
 public class ExerciseController {
 

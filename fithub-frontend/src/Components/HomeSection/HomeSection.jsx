@@ -1,3 +1,4 @@
+
 import { Avatar, Button } from '@mui/material';
 import { useFormik } from 'formik';
 import React, { useState, useEffect } from 'react';
@@ -8,6 +9,7 @@ import TagFacesIcon from '@mui/icons-material/TagFaces';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import axios from 'axios'; // Import Axios
 import Card from './Card';
+
 
 const validationSchema = Yup.object().shape({
     content: Yup.string().required("Gymeet text is required")

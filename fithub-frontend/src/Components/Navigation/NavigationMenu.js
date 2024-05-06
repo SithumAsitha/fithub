@@ -1,12 +1,12 @@
-import HomeIcon from "@mui/icons-material/Home"
-import ExploreIcon from "@mui/icons-material/Explore"
-import EmailIcon from '@mui/icons-material/Email';
-import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import GroupsIcon from '@mui/icons-material/Groups';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+import EmailIcon from '@mui/icons-material/Email';
+import ExploreIcon from "@mui/icons-material/Explore";
+import GroupsIcon from '@mui/icons-material/Groups';
+import HomeIcon from "@mui/icons-material/Home";
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import PendingIcon from '@mui/icons-material/Pending';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 
 export const navigationMenu=[
     {
