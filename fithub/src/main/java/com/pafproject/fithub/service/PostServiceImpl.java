@@ -31,6 +31,8 @@ public class PostServiceImpl implements PostService {
 
                 // file upload start
                 File savFile = new ClassPathResource("static/postImages").getFile();
+                String absolutePath = savFile.getAbsolutePath();
+                System.out.println("Saving image to: " + absolutePath);
                 Path path = Paths.get(savFile.getAbsolutePath() + File.separator + postImage.getOriginalFilename());
                 Files.copy(postImage.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 // file upload end
