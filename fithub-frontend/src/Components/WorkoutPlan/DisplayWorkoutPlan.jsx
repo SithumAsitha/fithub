@@ -1,22 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
-import { getPlan } from './api'; // Import your API functions
+import { Card, CardContent, Typography, Button } from '@mui/material';
+// import { getPlan } from './api'; 
 
 const DisplayWorkoutPlan = ({ PlanId }) => {
     const [workoutPlan, setWorkoutPlan] = useState(null);
 
     useEffect(() => {
-        // Fetch workout plan when the component mounts
         fetchWorkoutPlan();
     }, [PlanId]);
 
     const fetchWorkoutPlan = async () => {
         try {
-            const response = await getPlan(PlanId); // Call the API function to get workout plan
-            setWorkoutPlan(response.data); // Update state with the fetched workout plan
+            const response = {
+                data: {
+                    id: PlanId,
+                    exercises: [
+                        { name: 'Push-ups', sets: 3, reps: 10 },
+                        { name: 'Squats', sets: 3, reps: 12 },
+                        { name: 'Pull-ups', sets: 3, reps: 8 }
+                    ]
+                }
+            };
+            setWorkoutPlan(response.data); 
         } catch (error) {
             console.error('Error fetching workout plan:', error);
         }
+    };
+
+    const handleEdit = () => {
+        console.log('Edit button clicked');
+    };
+
+    const handleDelete = () => {
+        console.log('Delete button clicked');
     };
 
     if (!workoutPlan) {
@@ -48,6 +64,14 @@ const DisplayWorkoutPlan = ({ PlanId }) => {
                         </Typography>
                     </div>
                 ))}
+                <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                    <Button variant="contained" color="primary" onClick={handleEdit} style={{ marginRight: '10px' }}>
+                        Edit
+                    </Button>
+                    <Button variant="contained" color="secondary" onClick={handleDelete}>
+                        Delete
+                    </Button>
+                </div>
             </CardContent>
         </Card>
     );

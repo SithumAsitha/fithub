@@ -1,41 +1,42 @@
+import React, { useState } from "react";
+import { Avatar, Button, Box, Tab, TabContext, TabList, TabPanel } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import { Avatar, Button } from '@mui/material';
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
 import Card1 from '../HomeSection/Card';
 import profileCover from '../Images/profile-cover.jpg';
 import verifiedIcon from '../Images/verified icon.png';
+import DisplayWorkoutPlan from '../WorkoutPlan/DisplayWorkoutPlan';
 import WorkoutPlan from '../WorkoutPlan/WorkoutPlan';
 
 const Profile = () => {
-    const [tabValue, setTabValue] = useState("1")
+    const [tabValue, setTabValue] = useState("1");
+    const [showWorkoutPlan, setShowWorkoutPlan] = useState(false);
     const navigate = useNavigate();
     const handleBack = () => navigate(-1);
     const handleOpenProfileModel = () => {
         console.log("open profile model")
-    }
+    };
     const handleFollowUser = () => {
         console.log("follow user")
-    }
+    };
 
-    const handleTabChange=(event, newValue)=>{
-        setTabValue(newValue)
+    const handleAddWorkoutPlan = () => {
+        setShowWorkoutPlan(true);
+    };
 
-        if(newValue===4){
+    const handleTabChange = (event, newValue) => {
+        setTabValue(newValue);
+
+        if (newValue === "4") {
             console.log("like twit")
-        }
-        else if(newValue === 1){
+        } else if (newValue === "1") {
             console.log("user twits")
         }
-    }
+    };
+
     return (
         <div>
             <section style={{ zIndex: 50, display: 'flex', alignItems: 'center', position: 'sticky', top: 0, background: 'rgba(255, 255, 255, 0.95)' }}>
@@ -43,14 +44,12 @@ const Profile = () => {
                 <h1 style={{ padding: '0.75rem 1rem', fontSize: '1.25rem', fontWeight: 'bold', opacity: 0.9, margin: '0.5rem 1rem' }}>Sithum Asitha</h1>
             </section>
 
-
             <section style={{ display: 'flex', justifyContent: 'center' }}>
                 <img style={{ width: '92%', height: '15rem', objectFit: 'cover' }} src={profileCover} alt="cover img" />
             </section>
 
             <section style={{ padding: '2.3rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: '0.25rem', height: '5rem' }}>
-
                     <Avatar
                         className='transform'
                         style={{ transform: 'translateY(-6rem)' }}
@@ -70,7 +69,6 @@ const Profile = () => {
                             {true ? "Follow" : "Unfollow"}
                         </Button>
                     }
-
                 </div>
 
                 <div>
@@ -113,7 +111,6 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-
             </section>
 
             <section className='py-5'>
@@ -126,17 +123,18 @@ const Profile = () => {
                                 <Tab label="Media" value="3" />
                                 <Tab label="Likes" value="4" />
                                 <Tab label="Workout Plan" value="5" />
-
                             </TabList>
                         </Box>
                         <TabPanel value="1">
-                            {[1,1,1,1].map((item)=><Card1/>)}
+                            {[1, 1, 1, 1].map((item) => <Card1 />)}
                         </TabPanel>
                         <TabPanel value="2">users replies</TabPanel>
                         <TabPanel value="3">Media</TabPanel>
                         <TabPanel value="4">Likes</TabPanel>
-                        <TabPanel value="5">{<WorkoutPlan/>}</TabPanel>
-                        {/* <TabPanel value="5">Workout Plan</TabPanel> */}
+                        <TabPanel value="5">
+                            {showWorkoutPlan ? <WorkoutPlan /> : <Button onClick={handleAddWorkoutPlan} variant="contained" color="primary">Add Workout Plan</Button>}
+                            <DisplayWorkoutPlan PlanId="1" /> {/* Replace PlanId with actual value */}
+                        </TabPanel>
                     </TabContext>
                 </Box>
             </section>
