@@ -1,6 +1,6 @@
 import { Avatar, Button } from '@mui/material';
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import ImageIcon from '@mui/icons-material/Image';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -16,6 +16,20 @@ const validationSchema = Yup.object().shape({
 const HomeSection = () => {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [selectedImage, setSelectedImage] = useState("");
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get('http://localhost:8081/api/allPosts');
+                setPosts(response.data.data);
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        };
+
+        fetchPosts();
+    }, []);
 
     const handleSubmit = async (values) => {
         try {
@@ -23,23 +37,23 @@ const HomeSection = () => {
             formData.append("post_image", values.image); // Ensure this matches the name expected by the backend for the image part
             formData.append("post_data", JSON.stringify({ // Ensure this matches the name expected by the backend for the JSON data part
                 postDescription: values.content,
-                userId: "your_dummy_user_id_here",
+                userId: "GYM12345",
                 timestamp: new Date().toISOString()
             }));
-    
+
             await axios.post('http://localhost:8081/api/addPost', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-    
+
             formik.resetForm();
             setSelectedImage("");
         } catch (error) {
             console.error('Error submitting post:', error);
         }
     };
-    
+
     const handleFormSubmit = (e) => {
         e.preventDefault(); // Prevent default form submission
         handleSubmit(formik.values); // Call the custom submit function
@@ -125,7 +139,18 @@ const HomeSection = () => {
                 </div>
             </section>
             <section style={{ marginTop: '40px' }}>
-                {[1, 1, 1, 1, 1].map((item) => <Card key={item} />)}
+                {posts.map((post) => {
+                    console.log("Post Image URL:", post.postImage); // Display postImage in the console
+                    return (
+                        <Card
+                            key={post.postId}
+                            postDescription={post.postDescription}
+                            postImage={post.postImage}
+                            timestamp={post.timestamp}
+                        />
+                    );
+                })}
+
             </section>
         </div>
     );

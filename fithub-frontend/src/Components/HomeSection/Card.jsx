@@ -10,10 +10,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import verifiedIcon from '../Images/verified icon.png';
 
-const Card = () => {
+const Card = ({ postDescription, postImage, timestamp }) => {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    // const imagePath = `D:/PAF PROJECT/paf-assignment-2024-ds_22_team/fithub/target/classes/static/postImages/${postImage}`;
+
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -23,28 +25,24 @@ const Card = () => {
         setAnchorEl(null);
     };
 
-    const handleDeleteGymeet=()=>{
+    const handleDeleteGymeet = () => {
         console.log("Delete Gymeet");
         handleClose();
-    }
-    const handleOpenReplyModel=()=>{
+    };
+    const handleOpenReplyModel = () => {
         console.log("Open model");
-    }
-    const handleCreateReGymeet=()=>{
+    };
+    const handleCreateReGymeet = () => {
         console.log("handle create reGymeet");
-    }
+    };
 
-    const handleLikeGymeet=()=>{
+    const handleLikeGymeet = () => {
         console.log("handle like gymeet");
-    }
+    };
+
     return (
         <div>
             <div className=''>
-                {/* <div className='flex items-center font-semibold text-grey-700 py-2'>
-            <RepeatIcon/>
-            <p>You Regymeet</p>
-            </div> */}
-
                 <div style={{ display: 'flex' }}>
                     <Avatar
                         onClick={() => navigate(`/profile/${6}`)}
@@ -55,10 +53,10 @@ const Card = () => {
                         <div style={{ display: 'flex' }}>
                             <div style={{ display: 'flex' }}>
                                 <span style={{ fontWeight: 'bold' }}>Sithum Asitha</span>
-                                <span style={{ color: '#B2BEB5', marginLeft: '20px' }}>@sithumasitha . {new Date().toLocaleString()}</span>
+                                <span style={{ color: '#B2BEB5', marginLeft: '20px' }}>@sithumasitha . {new Date(timestamp).toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
                                 <img style={{ marginLeft: '5px', marginTop: '5px', height: '15px', widows: '15px' }} src={verifiedIcon} alt='' />
                             </div>
-                            <div style={{ marginLeft:'190px' }}>
+                            <div style={{ marginLeft: '190px' }}>
                                 <Button
                                     id="basic-button"
                                     aria-controls={open ? 'basic-menu' : undefined}
@@ -85,35 +83,36 @@ const Card = () => {
                         </div>
                         <div className='mt-2'>
                             <div onClick={() => navigate(`/fithub/${3}`)} className='cursor-pointer'>
-                                    <p style={{marginBottom:'2px',padding:'0px'}}>Weight Lifting with 20kg dumbbells </p>
-                                    <img style={{width:'28rem',border:'gray',padding:'5px',borderRadius:'10px'}} src="https://www.factoryweights.co.uk/cdn/shop/products/dumbellpicweb2_5b65ad65-f3bd-464a-8374-17669985e218_1200x.png?v=1685555760" alt=''/>
+                                <p style={{ marginBottom: '2px', padding: '0px' }}>{postDescription}</p>
+                                <img style={{ width: '100%', border: 'gray', padding: '5px', borderRadius: '10px' }} src={`http://localhost:8081/static/postImages/${postImage}`} alt='' />
+
                             </div>
-                            <div style={{display:'flex'}}>
-                                <div className='space-x-3 flex items-center text-gray-600' style={{marginLeft:'50px'}}>
-                                    <ChatBubbleOutlineIcon className='cursor-pointer' onClick={handleOpenReplyModel}/>
+                            <div style={{ display: 'flex' }}>
+                                <div className='space-x-3 flex items-center text-gray-600' style={{ marginLeft: '50px' }}>
+                                    <ChatBubbleOutlineIcon className='cursor-pointer' onClick={handleOpenReplyModel} />
                                     <p>43</p>
                                 </div>
-                                <div className={`${true? "text-pink-600":"text-gray-600"} space-x-3 flex items-center`} style={{marginLeft:'50px'}}>
+                                <div className={`${true ? "text-pink-600" : "text-gray-600"} space-x-3 flex items-center`} style={{ marginLeft: '50px' }}>
                                     <RepeatIcon
-                                    onclick={handleCreateReGymeet}
-                                    className='cursor-pointer'/>
+                                        onclick={handleCreateReGymeet}
+                                        className='cursor-pointer' />
                                     <p>54</p>
                                 </div>
-                                <div className={`${true? "text-pink-600":"text-gray-600"} space-x-3 flex items-center`} style={{marginLeft:'50px'}}>
-                                    {true?<FavoriteIcon
-                                    onClick={handleCreateReGymeet}
-                                    className='cursor-pointer'/>:<FavoriteBorderIcon
-                                    onClick={handleLikeGymeet}
-                                    className='cursor-pointer'/>
+                                <div className={`${true ? "text-pink-600" : "text-gray-600"} space-x-3 flex items-center`} style={{ marginLeft: '50px' }}>
+                                    {true ? <FavoriteIcon
+                                        onClick={handleCreateReGymeet}
+                                        className='cursor-pointer' /> : <FavoriteBorderIcon
+                                            onClick={handleLikeGymeet}
+                                            className='cursor-pointer' />
                                     }
                                 </div>
-                                <div className='space-x-3 flex items-center text-gray-600' style={{marginLeft:'50px'}}>
-                                    <BarChartIcon className='cursor-pointer' onClick={handleOpenReplyModel}/>
+                                <div className='space-x-3 flex items-center text-gray-600' style={{ marginLeft: '50px' }}>
+                                    <BarChartIcon className='cursor-pointer' onClick={handleOpenReplyModel} />
                                     <p>430</p>
                                 </div>
-                                <div className='space-x-3 flex items-center text-gray-600' style={{marginLeft:'50px'}}>
-                                    <FileUploadIcon className='cursor-pointer' onClick={handleOpenReplyModel}/>
-                                    
+                                <div className='space-x-3 flex items-center text-gray-600' style={{ marginLeft: '50px' }}>
+                                    <FileUploadIcon className='cursor-pointer' onClick={handleOpenReplyModel} />
+
                                 </div>
 
 
