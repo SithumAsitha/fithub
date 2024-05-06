@@ -9,8 +9,9 @@ import { Avatar, Button, Menu, MenuItem } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import verifiedIcon from '../Images/verified icon.png';
+import axios from 'axios';
 
-const Card = ({ postDescription, postImage, timestamp }) => {
+const Card = ({ postDescription, postImage, timestamp,postId, updatePosts}) => {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -25,10 +26,22 @@ const Card = ({ postDescription, postImage, timestamp }) => {
         setAnchorEl(null);
     };
 
-    const handleDeleteGymeet = () => {
-        console.log("Delete Gymeet");
-        handleClose();
+    const handleDeleteGymeet = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8081/api/deletePostById/${postId}`);
+            if (response.data.status) {
+                // Post deleted successfully
+                updatePosts((prevPosts) => prevPosts.filter((post) => post.postId !== postId));
+            } else {
+                // Post deletion failed, handle this case as needed
+                console.log("Post deletion failed");
+            }
+        } catch (error) {
+            console.error('Error deleting post:', error);
+        }
+        handleClose(); // Close the menu
     };
+    
     const handleOpenReplyModel = () => {
         console.log("Open model");
     };

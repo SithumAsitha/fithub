@@ -147,6 +147,8 @@ const HomeSection = () => {
                             postDescription={post.postDescription}
                             postImage={post.postImage}
                             timestamp={post.timestamp}
+                            postId={post.postId}
+                            updatePosts={setPosts}
                         />
                     );
                 })}
