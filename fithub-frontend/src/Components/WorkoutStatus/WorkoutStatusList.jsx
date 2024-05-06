@@ -5,7 +5,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import RepeatIcon from '@mui/icons-material/Repeat';
-import { Avatar, Button, Menu, MenuItem } from '@mui/material';
+import { Avatar, Button, Menu, MenuItem, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import verifiedIcon from '../Images/verified icon.png';
@@ -15,6 +15,7 @@ const WorkoutStatusList = () => {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const [status, setStatus] = useState([]);
+    const [searchUserId, setSearchUserId] = useState('');
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -70,13 +71,23 @@ const WorkoutStatusList = () => {
         console.log("handle like gymeet");
     };
 
-    
+    // Filter status based on searchUserId
+    const filteredStatus = status.filter((wstatus) =>
+        wstatus.userId.includes(searchUserId)
+    );
+
     return (
         <div>
             <div className='container'>
                 <h2>List of Workout Status</h2>
+                <TextField
+                    label="Search by User ID"
+                    variant="outlined"
+                    value={searchUserId}
+                    onChange={(e) => setSearchUserId(e.target.value)}
+                />
                 <div className="card-container">
-                    {status.map(wstatus =>
+                    {filteredStatus.map(wstatus =>
                         <div key={wstatus.status_id} className="card">
                             <Avatar
                                 onClick={() => navigate(`/profile/${wstatus.userId}`)}
