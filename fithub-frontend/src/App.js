@@ -9,7 +9,7 @@ function App() {
 
       <Routes>
         <Route path='/*' element={true?<HomePage/>:<Authentication/>}>
-
+        
         </Route>
       </Routes>
 

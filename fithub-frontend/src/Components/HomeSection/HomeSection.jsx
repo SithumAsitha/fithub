@@ -1,11 +1,10 @@
-import { FormatItalic } from '@mui/icons-material'
+import ImageIcon from '@mui/icons-material/Image'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import TagFacesIcon from '@mui/icons-material/TagFaces'
 import { Avatar, Button } from '@mui/material'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
-import ImageIcon from '@mui/icons-material/Image';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import TagFacesIcon from '@mui/icons-material/TagFaces';
 import Card from './Card'
 
 const validationSchema = Yup.object().shape({
