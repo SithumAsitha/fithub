@@ -2,7 +2,7 @@ import { Button, Card, CardContent, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
-import { createWorkoutStatus, getStatus, updateStatus } from './WorkoutStatusService';
+import { createWorkoutStatus, updateStatus } from './WorkoutStatusService';
 
 const validationSchema = Yup.object().shape({
     userId: Yup.string().required("User ID is required"),
@@ -29,21 +29,11 @@ const WorkoutStatus = () => {
     const {statusId} = useParams();
     
     useEffect(()=>{
+        
+        // Set initial timestamp when component mounts
+        const currentDate = new Date().toISOString();
+        setTimestamp(currentDate);
 
-        if(statusId){
-            getStatus(statusId).then((response)=>{
-                setUserId(response.data.userId);
-                setTimestamp(response.data.timestamp);
-                setDescription(response.data.description);
-                setDistanceRan(response.data.distanceRan);
-                setPushupsCompleted(response.data.pushupsCompleted);
-                setWeightLifted(response.data.weightLifted);
-                setDurationMinutes(response.data.durationMinutes);
-                setCaloriesBurned(response.data.caloriesBurned);
-            }).catch(error =>{
-                console.error(error);
-            })
-        }
     },[statusId])
     
     function saveOrUpdateWorkoutStatus(e){
@@ -51,6 +41,7 @@ const WorkoutStatus = () => {
 
         validationSchema.validate({
             userId,
+            timestamp,
             description,
             distanceRan,
             pushupsCompleted,
@@ -59,7 +50,7 @@ const WorkoutStatus = () => {
             caloriesBurned
         }, { abortEarly: false })
         .then(() => {
-            const workoutstatus = {userId, description, distanceRan, pushupsCompleted, weightLifted, durationMinutes, caloriesBurned};
+            const workoutstatus = {userId,timestamp, description, distanceRan, pushupsCompleted, weightLifted, durationMinutes, caloriesBurned};
             console.log(workoutstatus);
 
             if(statusId){
@@ -89,19 +80,11 @@ const WorkoutStatus = () => {
         });
     }
 
-
-    function pageTitle(){
-        if(statusId){
-            return <h1 style={{ fontWeight: 'bold', fontSize: '1.45rem', paddingTop: '0.75rem' }}>Update Workout Status</h1>
-        }else{
-            return <h1 style={{ fontWeight: 'bold', fontSize: '1.45rem', paddingTop: '0.75rem' }}>Add Workout Status</h1>
-        }
-    }
     return (
         <Card variant="outlined" sx={{ maxWidth: 600, margin: 'auto', marginTop: 5 }}>
             <CardContent>
                 <Typography variant="h5" component="h2" gutterBottom>
-                    {pageTitle()}
+                    <h1 style={{ fontWeight: 'bold', fontSize: '1.45rem', paddingTop: '0.75rem' }}>Add Workout Status</h1>
                 </Typography>
                 <form style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <TextField
@@ -147,6 +130,7 @@ const WorkoutStatus = () => {
                         margin="normal"
                         error={!!errors.distanceRan}
                         helperText={errors.distanceRan}
+                        inputProps={{ type: 'number' }}
                     />
                     <TextField
                         fullWidth
@@ -158,6 +142,7 @@ const WorkoutStatus = () => {
                         margin="normal"
                         error={!!errors.pushupsCompleted}
                         helperText={errors.pushupsCompleted}
+                        inputProps={{ type: 'number' }}
                     />
                     <TextField
                         fullWidth
@@ -169,6 +154,7 @@ const WorkoutStatus = () => {
                         margin="normal"
                         error={!!errors.weightLifted}
                         helperText={errors.weightLifted}
+                        inputProps={{ type: 'number' }}
                     />
                     <TextField
                         fullWidth
@@ -180,6 +166,7 @@ const WorkoutStatus = () => {
                         margin="normal"
                         error={!!errors.durationMinutes}
                         helperText={errors.durationMinutes}
+                        inputProps={{ type: 'number' }}
                     />
                     <TextField
                         fullWidth
@@ -191,6 +178,7 @@ const WorkoutStatus = () => {
                         margin="normal"
                         error={!!errors.caloriesBurned}
                         helperText={errors.caloriesBurned}
+                        inputProps={{ type: 'number' }}
                     />
                     <Button
                         fullWidth

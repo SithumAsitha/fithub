@@ -30,9 +30,14 @@ export const navigationMenu=[
         path:"/messages"
     },
     {
-        title:"Lists",
+        title:"WorkoutStatus",
         icon:<ListAltIcon/>,
-        path:"/list"
+        path:"/statuslist"
+    },
+    {
+        title:"WorkoutPlan",
+        icon:<ListAltIcon/>,
+        path:"/wplanlist"
     },
     {
         title:"Communities",

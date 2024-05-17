@@ -8,7 +8,7 @@ function App() {
     <div className="">
 
       <Routes>
-        <Route path='/*' element={true?<HomePage/>:<Authentication/>}>
+        <Route path='/*' element={<HomePage/>}>
         
         </Route>
       </Routes>

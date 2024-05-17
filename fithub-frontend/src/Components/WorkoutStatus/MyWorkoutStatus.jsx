@@ -4,14 +4,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import RepeatIcon from '@mui/icons-material/Repeat';
-import { Avatar, Button, Card, CardActions, CardContent, TextField } from '@mui/material';
+import { Avatar, Button, Card, CardActions, CardContent } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import verifiedIcon from '../Images/verified icon.png';
 import { deleteStatus, listStatus } from './WorkoutStatusService';
 
-
-const WorkoutStatusList = () => {
+const MyWorkoutStatus = () => {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const [status, setStatus] = useState([]);
@@ -50,18 +49,12 @@ const WorkoutStatusList = () => {
     };
 
     function handleDeleteStatus(statusId) {
-        const confirmation = window.confirm("Are you sure you want to delete this status entry?");
-
-        if (confirmation) {
-            deleteStatus(statusId)
-                .then((response) => {
-                    getAllStatus();
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }
-    }
+        deleteStatus(statusId).then((response) => {
+            getAllStatus();
+        }).catch(error => {
+            console.error(error);
+        })
+    };
 
     const handleOpenReplyModel = () => {
         console.log("Open model");
@@ -77,25 +70,17 @@ const WorkoutStatusList = () => {
 
     // Filter status based on searchUserId
     const filteredStatus = status.filter((wstatus) =>
-        wstatus.userId.includes(searchUserId)
+        wstatus.userId === '12345' // Change '3' to the user ID you want to filter by
     );
 
     const handleAddWorkoutStatus = () => {
         navigate(`/addstatus`)
-        // Redirect to add workout status page
     };
 
     return (
         <div>
             <div className='container' style={{ marginTop: '20px' }}>
-
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <TextField
-                        label="Search by User ID"
-                        variant="outlined"
-                        value={searchUserId}
-                        onChange={(e) => setSearchUserId(e.target.value)}
-                    />
                     <Button
                         onClick={handleAddWorkoutStatus}
                         sx={{ width: "30%", borderRadius: "29px", py: "15px", bgcolor: "#FD2F03", '&:hover': { bgcolor: 'black' } }}
@@ -139,21 +124,26 @@ const WorkoutStatusList = () => {
                                     fontSize: "0.6rem",
                                     borderRadius: "20px",
                                     bgcolor: "#FD2F03",
-                                    color: 'white', // Set the font color to black
-                                    '&:hover': { bgcolor: 'black', color: 'white' } // Change text color on hover
+                                    color: 'white',
+                                    '&:hover': { bgcolor: 'black', color: 'white' }
                                 }}
                                 onClick={() => handleUpdateStatus(wstatus.statusId)}
                             >
                                 Edit
                             </Button>
-
-                            <Button size="small" sx={{
-                                borderRadius: "20px",
-                                bgcolor: "#FD2F03",
-                                color: 'white', // Set the font color to black
-                                fontSize: "0.6rem",
-                                '&:hover': { bgcolor: 'black', color: 'white' } // Change text color on hover
-                            }} onClick={() => handleDeleteStatus(wstatus.statusId)}>Delete</Button>
+                            <Button
+                                size="small"
+                                sx={{
+                                    fontSize: "0.6rem",
+                                    borderRadius: "20px",
+                                    bgcolor: "#FD2F03",
+                                    color: 'white',
+                                    '&:hover': { bgcolor: 'black', color: 'white' }
+                                }}
+                                onClick={() => handleDeleteStatus(wstatus.statusId)}
+                            >
+                                Delete
+                            </Button>
                         </CardActions>
                         <div style={{ display: 'flex' }}>
                             <div className='space-x-3 flex items-center text-gray-600' style={{ marginLeft: '50px' }}>
@@ -180,10 +170,8 @@ const WorkoutStatusList = () => {
                             </div>
                             <div className='space-x-3 flex items-center text-gray-600' style={{ marginLeft: '50px' }}>
                                 <FileUploadIcon className='cursor-pointer' onClick={handleOpenReplyModel} />
-
                             </div>
                         </div>
-
                     </Card>
                 )}
             </div>
@@ -191,4 +179,4 @@ const WorkoutStatusList = () => {
     )
 }
 
-export default WorkoutStatusList;
+export default MyWorkoutStatus;

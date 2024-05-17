@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -14,34 +14,33 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import axios from 'axios';
-import { useFormik } from 'formik';
-
-import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-
+import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
+import { Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText } from '@mui/material';
 
 const Card = ({ post, postDescription, postImage, timestamp, postId, updatePosts }) => {
     const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [openDialog, setOpenDialog] = useState(false);
-    const [selectedPost, setSelectedPost] = useState(null);
     const [posts, setPosts] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [editingPost, setEditingPost] = useState(null);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     const handleClick = (event, post) => {
         setEditingPost(post);
+        setSelectedImage(post?.postImage); // Use optional chaining to access postImage safely
         setAnchorEl(event.currentTarget);
     };
 
     const handleMenuItemClick = (action) => {
-        if (action === "Edit") {
-            setOpenDialog(true);
-        } else if (action === "Delete") {
-            handleDeleteGymeet();
+        if (action === "Delete") {
+            setOpenDeleteDialog(true);
         }
         setAnchorEl(null); // Close the menu
     };
+    
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -60,37 +59,12 @@ const Card = ({ post, postDescription, postImage, timestamp, postId, updatePosts
         } catch (error) {
             console.error('Error deleting post:', error);
         }
-        handleClose(); // Close the menu
+        // Close the dialog
+        setOpenDeleteDialog(false);
     };
 
-    const handleEditPost = async () => {
-        try {
-            const formData = new FormData();
-            formData.append("post_image", selectedImage);
-            formData.append("post_data", JSON.stringify({
-                postId: postId,
-                postDescription: postDescription,
-                userId: "GYM12345",
-                timestamp: new Date().toISOString()
-            }));
 
-            const response = await axios.post(`http://localhost:8081/api/updatePost`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
 
-            const updatedPost = response.data.data; // Assuming the response contains the updated post
-            setPosts(posts.map((p) => (p.postId === editingPost.postId ? updatedPost : p)));
-            setOpenDialog(false); // Close the dialog
-        } catch (error) {
-            console.error('Error editing post:', error);
-        }
-    };
-
-    const handleSelectImage = (event) => {
-        setSelectedImage(event.target.files[0]);
-    };
 
     const handleOpenReplyModel = () => {
         console.log("Open model");
@@ -140,38 +114,50 @@ const Card = ({ post, postDescription, postImage, timestamp, postId, updatePosts
                                         'aria-labelledby': 'basic-button',
                                     }}
                                 >
-                                    <MenuItem onClick={() => handleMenuItemClick("Edit")}>Edit</MenuItem>
+                                    <MenuItem component={Link} to={`/edit-post/${postId}`}>Edit</MenuItem>
                                     <MenuItem onClick={() => handleMenuItemClick("Delete")}>Delete</MenuItem>
                                 </Menu>
-                                <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-                                    <DialogTitle>Edit Post</DialogTitle>
+                                
+                                <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
+                                    <DialogTitle>Delete Post</DialogTitle>
                                     <DialogContent>
-                                        <div>
-                                            <input type='text' name='content' placeholder='What is happening?'
-                                                className={`border-none outline-none text-xl bg-transparent`}
-                                                value={postDescription} />
-                                        </div>
-                                        <div>
-                                            <label htmlFor="fileInput">Select Image</label>
-                                            <input
-                                                id="fileInput"
-                                                type='file'
-                                                name='imageFile'
-                                                onChange={handleSelectImage} />
-                                        </div>
-                                        <Button
-                                            sx={{ width: "25%", borderRadius: "20px", paddingY: "5px", paddingX: "0px", bgcolor: "#FD2F03", '&:hover': { bgcolor: 'black' } }}
-                                            variant='contained'
-
-                                            onClick={handleEditPost}>Update</Button>
+                                        <DialogContentText>
+                                            Are you sure you want to delete this post?
+                                        </DialogContentText>
                                     </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={() => setOpenDeleteDialog(false)} sx={{ width: "35%", borderRadius: "20px", paddingY: "5px", paddingX: "0px", bgcolor: "#FD2F03", '&:hover': { bgcolor: 'black' } }}
+                                            variant='contained'
+                                            style={{ marginLeft: '5px' }}>
+                                            Cancel
+                                        </Button>
+                                        <Button onClick={handleDeleteGymeet} sx={{ width: "35%", borderRadius: "20px", paddingY: "5px", paddingX: "0px", bgcolor: "#FD2F03", '&:hover': { bgcolor: 'black' } }}
+                                            variant='contained'
+                                            style={{ marginLeft: '100px' }}>
+                                            Delete
+                                        </Button>
+                                    </DialogActions>
                                 </Dialog>
                             </div>
                         </div>
                         <div className='mt-2'>
                             <div onClick={() => navigate(`/fithub/${3}`)} className='cursor-pointer'>
                                 <p style={{ marginBottom: '2px', padding: '0px' }}>{postDescription}</p>
-                                <img style={{ width: '100%', border: 'gray', padding: '5px', borderRadius: '10px' }} src={`http://localhost:8081/static/postImages/${postImage}`} alt='' />
+                                {/* Render image or video based on the file extension */}
+                                {postImage && (
+                                    <>
+                                        {postImage.endsWith('.mp4') ? (
+                                            <video controls style={{ height: '500px', width: '500px' }}>
+                                                <source src={`http://localhost:8081/static/postImages/${postImage}`} type='video/mp4' />
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        ) : (
+                                            <img src={`http://localhost:8081/static/postImages/${postImage}`} alt='post-media' style={{ height: '400px', width: '600px' }} />
+                                        )}
+                                    </>
+                                )}
+
+
 
                             </div>
                             <div style={{ display: 'flex' }}>

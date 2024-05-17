@@ -26,7 +26,7 @@ public class PostController {
         this.objectMapper = mapper;
     }
     @PostMapping("/addPost")
-    public ResponseEntity<BasicResponse> addBlong(
+    public ResponseEntity<BasicResponse> addPost(
             @RequestParam("post_image") MultipartFile postImage,
             @RequestParam("post_data") String postData
             ){
@@ -42,7 +42,7 @@ public class PostController {
             return new ResponseEntity<>(basicResponse, HttpStatus.OK);
     }
     @GetMapping("/allPosts")
-    public ResponseEntity<BasicResponse> getAllBlogs(){
+    public ResponseEntity<BasicResponse> getAllPosts(){
         BasicResponse basicResponse = new BasicResponse();
         try {
             basicResponse = postService.getAllPosts();
@@ -90,7 +90,7 @@ public class PostController {
     }
     @GetMapping("/static/postImages/{imageName}")
     public ResponseEntity<Resource> serveFile(@PathVariable String imageName) {
-        Resource file = new FileSystemResource("D:/PAF PROJECT/paf-assignment-2024-ds_22_team/fithub/target/classes/static/postImages/" + imageName);
+        Resource file = new FileSystemResource("D:/PAF/paf-assignment-2024-ds_22_team/fithub/target/classes/static/postImages/" + imageName);
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG) // Set the Content-Type header
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")

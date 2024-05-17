@@ -1,31 +1,54 @@
-import React, { useState } from "react";
-import { Avatar, Button, Box, Tab, TabContext, TabList, TabPanel } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import { Avatar, Button, Box, Tab } from '@mui/material';
+import TabContext from '@mui/lab/TabContext'
+import TabList from '@mui/lab/TabList'
+import TabPanel from '@mui/lab/TabPanel'
 import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import Card1 from '../HomeSection/Card';
+import Card from '../HomeSection/Card';
 import profileCover from '../Images/profile-cover.jpg';
 import verifiedIcon from '../Images/verified icon.png';
-import DisplayWorkoutPlan from '../WorkoutPlan/DisplayWorkoutPlan';
+import axios from 'axios';
 import WorkoutPlan from '../WorkoutPlan/WorkoutPlan';
 import WorkoutStatus from '../WorkoutStatus/WorkoutStatus';
 
+import DisplayWorkoutPlan from '../WorkoutPlan/DisplayWorkoutPlan';
+import MyWorkoutStatus from "../WorkoutStatus/MyWorkoutStatus";
+import MyWorkoutPlanList from "../WorkoutPlan/MyWorkoutPlanList";
+
 const Profile = () => {
     const [tabValue, setTabValue] = useState("1");
-    const [showWorkoutPlan, setShowWorkoutPlan] = useState(false);
+const [showWorkoutPlan, setShowWorkoutPlan] = useState(false);
+    const [posts, setPosts] = useState([]);
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get('http://localhost:8081/api/allPosts');
+                setPosts(response.data.data);
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        };
+
+        fetchPosts();
+    }, []);
+
     const handleBack = () => navigate(-1);
+
     const handleOpenProfileModel = () => {
         console.log("open profile model")
     };
+const handleAddWorkoutPlan = () => {
+        setShowWorkoutPlan(true);
+    };
     const handleFollowUser = () => {
         console.log("follow user")
-    };
-
-    const handleAddWorkoutPlan = () => {
-        setShowWorkoutPlan(true);
     };
 
     const handleTabChange = (event, newValue) => {
@@ -50,68 +73,7 @@ const Profile = () => {
             </section>
 
             <section style={{ padding: '2.3rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: '0.25rem', height: '5rem' }}>
-                    <Avatar
-                        className='transform'
-                        style={{ transform: 'translateY(-6rem)' }}
-                        alt="profile pic"
-                        src="https://cdn3.iconfinder.com/data/icons/business-avatar-1/512/3_avatar-512.png"
-                        sx={{ width: "10rem", height: "10rem", border: "4px solid white" }}
-                    />
-                    {true ?
-                        <Button
-                            onClick={handleOpenProfileModel}
-                            style={{ borderRadius: "20px" }}
-                            variant='contained'>Edit Profile</Button> :
-                        <Button
-                            onClick={handleFollowUser}
-                            style={{ borderRadius: "20px" }}
-                            variant='contained'>
-                            {true ? "Follow" : "Unfollow"}
-                        </Button>
-                    }
-                </div>
-
-                <div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h1 style={{ fontWeight: 'bold', fontSize: '1.125rem' }}>Sithum Asitha</h1>
-                        {true && (
-                            <img
-                                style={{ marginLeft: '5px', marginTop: '5px', height: '15px', width: '15px' }}
-                                src={verifiedIcon}
-                                alt=''
-                            />
-                        )}
-                    </div>
-                    <h1 style={{ color: '#718096' }}>@sithumasitha</h1>
-                </div>
-                <div style={{ marginTop: '0.5rem', marginBottom: '1.5rem' }}>
-                    <p>Hello im sithum</p>
-                    <div style={{ paddingTop: '0.25rem', paddingBottom: '0.75rem', display: 'flex', gap: '1rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', color: '#718096' }}>
-                            <FitnessCenterIcon />
-                            <p style={{ margin: '0.25rem' }}>Fitness</p>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', color: '#718096' }}>
-                            <LocationOnIcon />
-                            <p style={{ margin: '0.25rem' }}>Srilankan</p>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', color: '#718096' }}>
-                            <CalendarMonthIcon />
-                            <p style={{ margin: '0.25rem' }}>Joined Jun 2023</p>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#718096' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 'bold' }}>
-                                <span>190</span>
-                                <span>Following</span>
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 'bold' }}>
-                                <span>590</span>
-                                <span>Followers</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {/* Profile info */}
             </section>
 
             <section className='py-5'>
@@ -124,22 +86,33 @@ const Profile = () => {
                                 <Tab label="Media" value="3" />
 
                                 <Tab label="Workout Plan" value="5" />
-                                <Tab label="Workout Status" value="6" />
-           </TabList>
+                                <Tab label="My Workout Status" value="6" />
+                            </TabList>
                         </Box>
                         <TabPanel value="1">
-                            {[1, 1, 1, 1].map((item) => <Card1 />)}
+                            {posts && Array.isArray(posts) && posts.length > 0 ? (
+                                posts.map((post) => (
+                                    <Card
+                                        key={post.postId}
+                                        postDescription={post.postDescription}
+                                        postImage={post.postImage}
+                                        timestamp={post.timestamp}
+                                        postId={post.postId}
+                                        updatePosts={setPosts}
+                                    />
+                                ))
+                            ) : (
+                                <p>No posts found</p>
+                            )}
                         </TabPanel>
                         <TabPanel value="2">users replies</TabPanel>
                         <TabPanel value="3">Media</TabPanel>
                         <TabPanel value="4">Likes</TabPanel>
 
                         <TabPanel value="5">
-                            {showWorkoutPlan ? <WorkoutPlan /> : <Button onClick={handleAddWorkoutPlan} variant="contained" color="primary">Add Workout Plan</Button>}
-                            <DisplayWorkoutPlan PlanId="1" /> {/* Replace PlanId with actual value */}
+                            {<MyWorkoutPlanList/>}
                         </TabPanel>
-                        <TabPanel value="6">{<WorkoutStatus/>}</TabPanel>
-
+                        <TabPanel value="6">{<MyWorkoutStatus/>}</TabPanel>
                     </TabContext>
                 </Box>
             </section>
@@ -148,3 +121,8 @@ const Profile = () => {
 };
 
 export default Profile;
+
+
+
+
+
